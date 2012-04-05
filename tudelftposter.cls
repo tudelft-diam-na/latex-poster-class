@@ -218,8 +218,6 @@
 
 % ]]]
 
-\def\@namegdef#1{\expandafter\gdef\csname #1\endcsname}
-
 % authors [[[
 
 % \addauthornote{key}[symbol]{description}
@@ -232,7 +230,7 @@
 \def\addauthornote#1{\@ifnextchar[{\tud@authornote@addi{#1}}{\tud@authornote@addii{#1}}}%]
 
 \def\tud@authornote@addi#1[#2]#3{%
-  \expandafter\gdef\csname tud@authornote@symbol@#1\endcsname{#2}%
+  \expandafter\gdef\csname tud@authornote@symbol@#1\endcsname{\textsuperscript{#2}}%
   \tud@authornote@addiii{#1}{#3}}%
 
 \newcounter{tud@authornote@symbolcounter}
