@@ -66,6 +66,27 @@
 
 \RequirePackage{graphicx}
 
+% utilities: string [[[
+
+\def\tud@string@new{\@ifnextchar[{\tud@string@new@i}{\tud@string@new@i[]}}%]
+
+\def\tud@string@new@i[#1]#2{%
+  \csgdef{tud@string@separator@#2}{#1}}
+
+\def\tud@string@append#1#2{%
+  \def\tud@tmp{#2}%
+  \ifcsdef{tud@string@data@#1}{%
+    \csxdef{tud@string@data@#1}{\csexpandonce{tud@string@data@#1}\csexpandonce{tud@string@separator@#1}\expandonce\tud@tmp}}{%
+    \csxdef{tud@string@data@#1}{\expandonce\tud@tmp}}}
+
+\def\tud@string@use#1{%
+  \csuse{tud@string@data@#1}}
+
+\def\tud@string@ifempty#1#2#3{%
+  \ifcsdef{tud@string@data@#1}{#3}{#2}}
+
+% ]]]
+
 % fonts and sections [[[
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -77,6 +98,51 @@
    {.5ex plus .5ex}%
    {\large\bfseries\color{tudblue}}%
 }
+
+% ]]]
+% authors [[[
+
+% \addauthornote{key}[symbol]{description}
+
+\def\tud@authornote@getsymbol#1{\csuse{tud@authornote@symbol@#1}}
+
+\def\addauthornote#1{\@ifnextchar[{\tud@authornote@addi{#1}}{\tud@authornote@addii{#1}}}%]
+
+\def\tud@authornote@addi#1[#2]#3{%
+  \csgdef{tud@authornote@symbol@#1}{\textsuperscript{{#2}}}%
+  \tud@authornote@addiii{#1}{#3}}%
+
+\newcounter{tud@authornote@symbolcounter}
+\setcounter{tud@authornote@symbolcounter}{0}
+
+\def\tud@authornote@addii#1#2{%
+  \stepcounter{tud@authornote@symbolcounter}%
+  \csxdef{tud@authornote@symbol@#1}{%
+    \noexpand\textsuperscript{\fnsymbol{tud@authornote@symbolcounter}}}
+  \tud@authornote@addiii{#1}{#2}}%
+
+\tud@string@new[, ]{authornotes}
+\def\tud@authornote@addiii#1#2{%
+  \tud@string@append{authornotes}{\tud@authornote@getsymbol{#1}{#2}}}
+
+% \addauthor[authornote1,authornote2]{name}
+
+\tud@string@new[, ]{authors}
+\def\addauthor{\@ifnextchar [{\tud@addauthor}{\tud@addauthor[]}}%]
+\def\tud@addauthor[#1]#2{%
+  \tud@string@append{authors}{%
+    {#2}%
+    \@for\tud@tmp:=#1\do{%
+      \tud@authornote@getsymbol{\tud@tmp}}}}
+
+\def\tud@author{%
+  \tud@string@ifempty{authors}{%
+    \@author%
+  }{%
+    \tud@string@use{authors}\\%
+    \fontsize{32}{45}\selectfont%
+    \tud@string@use{authornotes}%
+  }}
 
 % ]]]
 % header and footer [[[
@@ -218,64 +284,73 @@
 
 % ]]]
 
-% authors [[[
-
-% \addauthornote{key}[symbol]{description}
-
-\gdef\tud@authornotes@list{}
-
-\def\tud@authornote@getsymbol#1{%
-  {\csname tud@authornote@symbol@#1\endcsname}}
-
-\def\addauthornote#1{\@ifnextchar[{\tud@authornote@addi{#1}}{\tud@authornote@addii{#1}}}%]
-
-\def\tud@authornote@addi#1[#2]#3{%
-  \expandafter\gdef\csname tud@authornote@symbol@#1\endcsname{\textsuperscript{#2}}%
-  \tud@authornote@addiii{#1}{#3}}%
-
-\newcounter{tud@authornote@symbolcounter}
-\setcounter{tud@authornote@symbolcounter}{0}
-
-\def\tud@authornote@addii#1#2{%
-  \stepcounter{tud@authornote@symbolcounter}%
-  \expandafter\edef\csname tud@authornote@symbol@#1\endcsname{%
-    \noexpand\textsuperscript{\fnsymbol{tud@authornote@symbolcounter}}}
-  \tud@authornote@addiii{#1}{#2}}%
-
-\def\tud@authornote@addiii#1#2{%
-  \ifx\tud@authornotes@list\empty%
-    \gdef\tud@authornotes@list{\tud@authornote@getsymbol{#1}{#2}}%
-  \else%
-    \expandafter\gdef\expandafter\tud@authornotes@list\expandafter{\tud@authornotes@list, \tud@authornote@getsymbol{#1}{#2}}%
-  \fi}
-
-% \addauthor[authornote1,authornote2]{name}
-
-\def\addauthor{\@ifnextchar [{\tud@addauthor}{\tud@addauthor[]}}%]
-\gdef\tud@authors@list{}
-\def\tud@addauthor[#1]#2{%
-  \ifx\tud@authors@list\empty%
-  \else%
-    \expandafter\gdef\expandafter\tud@authors@list\expandafter{\tud@authors@list, }%
-  \fi%
-  \expandafter\gdef\expandafter\tud@authors@list\expandafter{\tud@authors@list{#2}}%
-  \expandafter\gdef\expandafter\tud@authors@list\expandafter{%
-    \tud@authors@list%
-    \@for\tud@tmp:=#1\do{\tud@authornote@getsymbol{\tud@tmp}}}}%
-
-\def\tud@author{%
-  \ifx\@authors@list\empty%
-    \@author%
-  \else%
-    \tud@authors@list\\%
-    \fontsize{32}{45}\selectfont%
-    \tud@authornotes@list%
-  \fi}
-
-% ]]]
-
 \let\theinstitution\relax%
 \def\institution#1{%
   \gdef\theinstitution{#1}}%
+
+% block [[[
+
+\newlength\tud@block@inset%
+\newlength\tud@block@vmargin%
+\newlength\tud@block@hmargin%
+\newlength\tud@block@textwidth%
+
+\newcommand{\experimentalblockleft}[1]{%
+  \begin{figure}[h]%
+    \setlength\tud@block@inset{\oddsidemargin}%
+    \addtolength\tud@block@inset{1in}%
+    \addtolength\tud@block@inset{\safetymargin}%
+    \setlength\tud@block@vmargin{.5\columnsep}%
+    \setlength\tud@block@hmargin{\columnsep}%
+    \setlength\tud@block@textwidth{\columnwidth}%
+    \addtolength\tud@block@textwidth{-\tud@block@hmargin}%
+    \hspace{-\tud@block@inset}%
+    \makebox[0pt][l]{%
+      \colorbox{black}{%
+        \vbox{%
+          \vbox to\tud@block@vmargin{\vfill}%
+          \hbox{%
+            \hspace{\tud@block@inset}\parbox{\tud@block@textwidth}{%
+              \color{white}%
+              \bfseries%
+              #1%
+            }\hspace{\tud@block@hmargin}%
+          }%
+          \vbox to\tud@block@vmargin{\vfill}%
+        }%
+      }%
+    }%
+  \end{figure}%
+}
+
+\newcommand{\experimentalblockright}[1]{%
+  \begin{figure}[h]%
+    \setlength\tud@block@inset{\evensidemargin}%
+    \addtolength\tud@block@inset{1in}%
+    \addtolength\tud@block@inset{\safetymargin}%
+    \setlength\tud@block@vmargin{.5\columnsep}%
+    \setlength\tud@block@hmargin{\columnsep}%
+    \setlength\tud@block@textwidth{\columnwidth}%
+    \addtolength\tud@block@textwidth{-\tud@block@hmargin}%
+%   \hspace{-\tud@block@inset}%
+    \makebox[0pt][l]{%
+      \colorbox{black}{%
+        \vbox{%
+          \vbox to\tud@block@vmargin{\vfill}%
+          \hbox{%
+            \hspace{\tud@block@hmargin}\parbox{\tud@block@textwidth}{%
+              \color{white}%
+              \bfseries%
+              #1%
+            }\hspace{\tud@block@inset}%
+          }%
+          \vbox to\tud@block@vmargin{\vfill}%
+        }%
+      }%
+    }%
+  \end{figure}%
+}
+
+% ]]]
 
 % vim: ts=2:sts=2:sw=2:et:fdm=marker:fmr=[[[,]]]
