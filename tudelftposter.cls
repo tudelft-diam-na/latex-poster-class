@@ -349,10 +349,6 @@
 
 % ]]]
 
-\let\theinstitution\relax%
-\def\institution#1{%
-  \gdef\theinstitution{#1}}%
-
 % block [[[
 
 \newlength\tud@block@inset%
