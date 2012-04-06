@@ -1,7 +1,8 @@
 \ProvidesClass{tudelftposter}[2012/03/29, v. 1.1]
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
-% \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
+
+% options [[[
 
 \DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
 \DeclareOption{final}{\PassOptionsToClass{final}{article}}
@@ -9,13 +10,24 @@
 \ExecuteOptions{final}
 \ProcessOptions
 
+% ]]]
+
 \LoadClass[twocolumn]{article}
 \setlength{\columnsep}{3cm}
-\RequirePackage[a0paper,hmargin=3cm,vmargin={0cm,14.5cm}]{geometry}
+
+% packages [[[
+
+\RequirePackage[a0paper,hmargin=\columnsep,vmargin={0cm,0cm}]{geometry}
+\RequirePackage[cmyk]{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fadings}
+
+% ]]]
 
 % color definitions [[[
 
-\RequirePackage[cmyk]{xcolor}
 \definecolor{tudbluergb}{rgb}{0,0.6484375,0.8359375}
 \definecolor{tudblue}{cmyk}{1,0,0,0}
 
@@ -63,8 +75,6 @@
 \setlength\dbltextfloatsep{86pt plus 9pt minus 18pt}
 
 % ]]]
-
-\RequirePackage{graphicx}
 
 % utilities: string [[[
 
@@ -141,11 +151,7 @@
         \tud@authornote@getsymbol{\tud@tmp}}}}}
 
 % ]]]
-% header and footer [[[
-
-\RequirePackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{fadings}
+% header [[[
 
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
@@ -177,7 +183,7 @@
         \par}%
     \end{center}%
     \par%
-    \vskip 3cm}% or 1.5em
+    \vskip\columnsep}%
   \setlength\titleheaderheight{\ht\@tempboxa}%
   \addtolength\titleheaderheight{\dp\@tempboxa}%
 % \addtolength\titleheaderheight{1.5em}%
@@ -193,33 +199,40 @@
 
 \AfterEndPreamble{\maketitle} % in package etoolbox
 
-\newlength\footerlinewidth
-\setlength\footerlinewidth{1pt}
+% ]]]
+% footer [[[
+
 \newlength\footerheight
-\setlength\footerheight{.1\paperheight}
-\newlength\footerblueheight
-\setlength\footerblueheight{.4\footerheight}
-\newlength\footerbluewhitelineheight
-\setlength\footerbluewhitelineheight{.115\footerheight}
-\newlength\footerbluewhitelinewidth
-\setlength\footerbluewhitelinewidth{.01\footerheight}
-\newlength\footerlogosmargin
-\setlength\footerlogosmargin{.085\footerheight}
-\newlength\footerlogosheight
-\setlength\footerlogosheight{\footerheight}
-\addtolength\footerlogosheight{-\footerblueheight}
-\addtolength\footerlogosheight{-2\footerlogosmargin}
+\deflength\footerheight{.1\paperheight}
+\newlength\footerheightwithmargin
+\deflength\footerheightwithmargin{\footerheight+\columnsep}
+\geometry{vmargin={0cm,\footerheightwithmargin}}
+
+\newlength\footerblacklinewidth
+\deflength\footerblacklinewidth{1pt}
+\newlength\footerwhiteliney
+\deflength\footerwhiteliney{.115\footerheight}
+\newlength\footerwhitelinewidth
+\deflength\footerwhitelinewidth{.01\footerheight}
+\newlength\footerblueyi
+\deflength\footerblueyi{\footerwhiteliney-.5\footerwhitelinewidth}
+\newlength\footerblueyii
+\deflength\footerblueyii{\footerwhiteliney+.5\footerwhitelinewidth}
+\newlength\footerblueyiii
+\deflength\footerblueyiii{.4\footerheight}
+\newlength\footerimagemargin
+\deflength\footerimagemargin{.085\footerheight}
+\newlength\footerimageheight
+\deflength\footerimageheight{\footerheight-\footerblueyiii-2\footerimagemargin}
+
+\newlength\footerimagey
+\deflength\footerimagey{\footerblueyiii+\footerimagemargin}
 
 \newcommand{\footerlogotstextformat}{\color{white}\small\bfseries}
-\settoheight\@tempdima{\footerlogotstextformat x}
-\setlength\@tempdima{-\@tempdima}
-\addtolength\@tempdima{\footerblueheight}
-\addtolength\@tempdima{-\footerbluewhitelineheight}
-\addtolength\@tempdima{-.5\footerbluewhitelinewidth}
-\newlength\footerlogostextheight
-\setlength\footerlogostextheight{\footerbluewhitelineheight}
-\addtolength\footerlogostextheight{.5\footerbluewhitelinewidth}
-\addtolength\footerlogostextheight{.5\@tempdima}
+\newlength\footertextheight
+\settoheight\footertextheight{\footerlogotstextformat x}
+\newlength\footerimagetexty
+\deflength\footerimagetexty{.5\footerblueyii+.5\footerblueyiii-.5\footertextheight}
 
 \tud@string@new{footer}
 
@@ -231,9 +244,9 @@
     \begin{tikzpicture}[remember picture,overlay]
       \node at (current page.south west)
         {\begin{tikzpicture}[remember picture, overlay]
-          \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueheight);
-          \draw[white,line width=\footerbluewhitelinewidth] (-\safetymargin,\footerbluewhitelineheight) -- ++(\paperwidth+2\safetymargin,0cm);
-          \draw[black,line width=\footerlinewidth] (-\safetymargin,\footerheight) -- ++(\paperwidth+2\safetymargin,0cm);
+          \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueyi);
+          \fill[tudblue] (-\safetymargin,\footerblueyii) rectangle (\paperwidth+\safetymargin,\footerblueyiii);
+          \fill[black] (-\safetymargin,\footerheight) rectangle (\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth);
           \tud@string@use{footer}
          \end{tikzpicture}
         };
@@ -249,7 +262,7 @@
 
 \def\tud@footer@addimage#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
-  \tud@footer@addtoimagebar{#1}{#2}{\includegraphics[height=\footerlogosheight]{#4}}}
+  \tud@footer@addtoimagebar{#1}{#2}{\includegraphics[height=\footerimageheight]{#4}}}
 
 \def\addfootobject{%
   \@ifstar{\tud@footer@addrawobject}{\tud@footer@addobject}}
@@ -266,7 +279,7 @@
 
 \def\tud@footer@addobjecti#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
-  \tud@footer@addtoimagebar{#1}{#2}{\resizebox{!}{\footerlogosheight}{#4}}}
+  \tud@footer@addtoimagebar{#1}{#2}{\resizebox{!}{\footerimageheight}{#4}}}
 
 \def\addfoottext(#1:#2)#3{%
   \tud@footer@addtotextbar{#1}{#2}{#3}}
@@ -276,7 +289,7 @@
 
 \def\tud@footer@addqrcode#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
-  \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerlogosheight}}}
+  \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerimageheight}}}
 
 \def\tud@footer@getposition#1{\csuse{tud@footer@position@#1}}
 \def\tud@footer@position@c{above}
@@ -285,13 +298,13 @@
 
 \def\tud@footer@addtoimagebar#1#2#3{%
   \tud@string@append{footer}{%
-    \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerblueheight+\footerlogosmargin) {%
+    \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerimagey) {%
       {#3}};}}
 
 \def\tud@footer@addtotextbar#1#2#3{%
   \tud@string@append{footer}{%
-    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerlogostextheight) {%
-      \raisebox{0pt}[\height][0pt]{{#3}}};}}
+    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerimagetexty) {%
+      \raisebox{0pt}[\height][0pt]{{\footerlogotstextformat #3}}};}}
 
 % ]]]
 % floats [[[
