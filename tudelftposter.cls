@@ -268,6 +268,13 @@
 \def\addfoottext(#1:#2)#3{%
   \tud@footer@addtotextbar{#1}{#2}{#3}}
 
+\def\addfootqrcode(#1:#2){%
+  \@ifnextchar [{\tud@footer@addqrcode{#1}{#2}}{\tud@footer@addqrcode{#1}{#2}[]}}%]
+
+\def\tud@footer@addqrcode#1#2[#3]#4{%
+  \tud@footer@addtotextbar{#1}{#2}{#3}%
+  \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerlogosheight}}}
+
 \def\tud@footer@getposition#1{\csuse{tud@footer@position@#1}}
 \def\tud@footer@position@c{above}
 \def\tud@footer@position@l{above right}
@@ -317,13 +324,25 @@
 
 % QR code [[[
 
-\let\theqrcode\relax%
-\def\qrcodefilename#1{%
-  \gdef\theqrcode{%
-    \includegraphics[height=\footerlogosheight]{#1}}}%
-\def\qrcodeposition#1{%
-  \gdef\theqrcodeposition{#1}}%
-\qrcodeposition{.95}%
+\newwrite\tud@qr@out
+\immediate\openout\tud@qr@out\jobname.qro
+
+\newlength{\qrsize}
+
+\def\tud@qr@insert#1#2{%
+  \bgroup%
+    \immediate\write\tud@qr@out{#1}%
+    \def\qrcode{%
+      \ClassWarningNoLine{tudelftposter}{Please run `python generate-qrcode.py \jobname` to generate the QR codes}%
+      \begin{tikzpicture}[x=#2,y=#2]%
+        \fill[color=red] (0,0) rectangle (1,1);%
+        \node[below right,color=white] at (0,1) {\parbox{#2}{\tiny\raggedright run generate-qrcode.py}};%
+      \end{tikzpicture}}%
+    \edef\qrmsgout{#1}%
+    \setlength{\qrsize}{#2}%
+    \IfFileExists{\jobname.qri}{\input{\jobname.qri}}{}%
+    \qrcode%
+  \egroup}
 
 % ]]]
 
