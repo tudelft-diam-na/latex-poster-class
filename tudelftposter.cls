@@ -82,7 +82,7 @@
 \def\tud@string@use#1{%
   \csuse{tud@string@data@#1}}
 
-\def\tud@string@ifempty#1#2#3{%
+\long\def\tud@string@ifempty#1#2#3{%
   \ifcsdef{tud@string@data@#1}{#3}{#2}}
 
 % ]]]
@@ -125,9 +125,9 @@
     \noexpand\textsuperscript{\fnsymbol{tud@authornote@symbolcounter}}}
   \tud@authornote@addiii{#1}{#2}}%
 
-\tud@string@new[, ]{authornotes}
+\tud@string@new[,\quad]{authornotes}
 \def\tud@authornote@addiii#1#2{%
-  \tud@string@append{authornotes}{\tud@authornote@getsymbol{#1}{#2}}}
+  \tud@string@append{authornotes}{\mbox{\tud@authornote@getsymbol{#1}{#2}}}}
 
 % \addauthor[authornote1,authornote2]{name}
 
@@ -135,18 +135,10 @@
 \def\addauthor{\@ifnextchar [{\tud@addauthor}{\tud@addauthor[]}}%]
 \def\tud@addauthor[#1]#2{%
   \tud@string@append{authors}{%
-    {#2}%
-    \@for\tud@tmp:=#1\do{%
-      \tud@authornote@getsymbol{\tud@tmp}}}}
-
-\def\tud@author{%
-  \tud@string@ifempty{authors}{%
-    \@author%
-  }{%
-    \tud@string@use{authors}\\%
-    \fontsize{32}{45}\selectfont%
-    \tud@string@use{authornotes}%
-  }}
+    \mbox{%
+      {#2}%
+      \@for\tud@tmp:=#1\do{%
+        \tud@authornote@getsymbol{\tud@tmp}}}}}
 
 % ]]]
 % header and footer [[[
@@ -169,9 +161,19 @@
       \vskip 1.5em%
       {\Large
         \lineskip .5em%
-        \begin{tabular}[t]{c}%
-          \tud@author
-        \end{tabular}\par}%
+        \tud@string@ifempty{authors}{%
+          % old style authors
+          \begin{tabular}[t]{c}%
+            \@author
+          \end{tabular}%
+        }{%
+          % new style authors
+          \tud@string@use{authors}%
+          \par\vskip .5em%
+          \fontsize{32}{45}\selectfont%
+          \tud@string@use{authornotes}%
+        }%
+        \par}%
     \end{center}%
     \par%
     \vskip 3cm}% or 1.5em
