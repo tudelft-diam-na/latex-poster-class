@@ -170,8 +170,7 @@
         \end{tabular}\par}%
     \end{center}%
     \par%
-    \vskip 3cm}%
-%   \vskip 1.5em}%
+    \vskip 3cm}% or 1.5em
   \setlength\titleheaderheight{\ht\@tempboxa}%
   \addtolength\titleheaderheight{\dp\@tempboxa}%
 % \addtolength\titleheaderheight{1.5em}%
@@ -215,6 +214,8 @@
 \addtolength\footerlogostextheight{.5\footerbluewhitelinewidth}
 \addtolength\footerlogostextheight{.5\@tempdima}
 
+\tud@string@new{footer}
+
 \def\ps@plain{%
   \let\@mkboth\@gobbletwo%
   \let\@oddhead\@empty%
@@ -226,11 +227,7 @@
           \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueheight);
           \draw[white,line width=\footerbluewhitelinewidth] (-\safetymargin,\footerbluewhitelineheight) -- ++(\paperwidth+2\safetymargin,0cm);
           \draw[black,line width=\footerlinewidth] (-\safetymargin,\footerheight) -- ++(\paperwidth+2\safetymargin,0cm);
-%         \node[inner sep=0pt,above] at (.25\paperwidth,\footerblueheight+\footerlogosmargin) {\includegraphics[height=\footerlogosheight]{sponsor_logo}};
-          \node[inner sep=0pt,above] at (.75\paperwidth,\footerblueheight+\footerlogosmargin) {\includegraphics[height=\footerlogosheight]{tud_logo}};
-          \node[inner sep=0pt,above] at (\theqrcodeposition\paperwidth,\footerblueheight+\footerlogosmargin) {\theqrcode};
-%         \node[inner sep=0pt,above,baseline=0cm] at (.25\paperwidth,\footerlogostextheight) {\raisebox{0pt}[\height][0pt]{\footerlogotstextformat project sponsored by ...}};
-          \node[inner sep=0pt,above,baseline=0cm] at (.75\paperwidth,\footerlogostextheight) {\raisebox{0pt}[\height][0pt]{\footerlogotstextformat\theinstitution}};
+          \tud@string@use{footer}
          \end{tikzpicture}
         };
      \end{tikzpicture}%
@@ -239,6 +236,48 @@
   \let\@evenfoot\@oddfoot}
 
 \pagestyle{plain}
+
+\def\addfootimage(#1:#2){%
+  \@ifnextchar [{\tud@footer@addimage{#1}{#2}}{\tud@footer@addimage{#1}{#2}[]}}%]
+
+\def\tud@footer@addimage#1#2[#3]#4{%
+  \tud@footer@addtotextbar{#1}{#2}{#3}%
+  \tud@footer@addtoimagebar{#1}{#2}{\includegraphics[height=\footerlogosheight]{#4}}}
+
+\def\addfootobject{%
+  \@ifstar{\tud@footer@addrawobject}{\tud@footer@addobject}}
+
+\def\tud@footer@addrawobject(#1:#2){%
+  \@ifnextchar [{\tud@footer@addrawobjecti{#1}{#2}}{\tud@footer@addrawobjecti{#1}{#2}[]}}%]
+
+\def\tud@footer@addrawobjecti#1#2[#3]#4{%
+  \tud@footer@addtotextbar{#1}{#2}{#3}%
+  \tud@footer@addtoimagebar{#1}{#2}{#4}}
+
+\def\tud@footer@addobject(#1:#2){%
+  \@ifnextchar [{\tud@footer@addobjecti{#1}{#2}}{\tud@footer@addobjecti{#1}{#2}[]}}%]
+
+\def\tud@footer@addobjecti#1#2[#3]#4{%
+  \tud@footer@addtotextbar{#1}{#2}{#3}%
+  \tud@footer@addtoimagebar{#1}{#2}{\resizebox{!}{\footerlogosheight}{#4}}}
+
+\def\addfoottext(#1:#2)#3{%
+  \tud@footer@addtotextbar{#1}{#2}{#3}}
+
+\def\tud@footer@getposition#1{\csuse{tud@footer@position@#1}}
+\def\tud@footer@position@c{above}
+\def\tud@footer@position@l{above right}
+\def\tud@footer@position@r{above left}
+
+\def\tud@footer@addtoimagebar#1#2#3{%
+  \tud@string@append{footer}{%
+    \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerblueheight+\footerlogosmargin) {%
+      {#3}};}}
+
+\def\tud@footer@addtotextbar#1#2#3{%
+  \tud@string@append{footer}{%
+    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerlogostextheight) {%
+      \raisebox{0pt}[\height][0pt]{{#3}}};}}
 
 % ]]]
 % floats [[[
