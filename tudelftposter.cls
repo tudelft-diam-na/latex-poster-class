@@ -145,6 +145,7 @@
 
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
+\usetikzlibrary{fadings}
 
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
@@ -183,7 +184,7 @@
   \begin{tikzpicture}[remember picture,overlay]
     \node at (current page.north west)
       {\begin{tikzpicture}[remember picture, overlay]
-        \draw[draw=none,top color=tudbluergb,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\titleheaderheight);
+        \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\titleheaderheight);
        \end{tikzpicture}
       };
    \end{tikzpicture}%
