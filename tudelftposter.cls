@@ -104,7 +104,11 @@
 
 % \addauthornote{key}[symbol]{description}
 
-\def\tud@authornote@getsymbol#1{\csuse{tud@authornote@symbol@#1}}
+\def\tud@authornote@getsymbol#1{%
+  \ifcsdef{tud@authornote@symbol@#1}{%
+    \csuse{tud@authornote@symbol@#1}}{%
+    \ClassWarning{tudelftposter}{unknown author note '#1'}%
+    \textsuperscript{{\bfseries??}}}}
 
 \def\addauthornote#1{\@ifnextchar[{\tud@authornote@addi{#1}}{\tud@authornote@addii{#1}}}%]
 
