@@ -230,7 +230,7 @@
 
 \newcommand{\footerlogotstextformat}{\color{white}\small\bfseries}
 \newlength\footertextheight
-\settoheight\footertextheight{\footerlogotstextformat x}
+\settoheight\footertextheight{\footerlogotstextformat X}
 \newlength\footerimagetexty
 \deflength\footerimagetexty{.5\footerblueyii+.5\footerblueyiii-.5\footertextheight}
 
