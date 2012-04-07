@@ -78,10 +78,15 @@
 
 % utilities: string [[[
 
-\def\tud@string@new{\@ifnextchar[{\tud@string@new@i}{\tud@string@new@i[]}}%]
+\def\tud@string@new{%
+  \@ifnextchar [{\tud@string@new@i}{\tud@string@new@ii[][]}}%]
 
-\def\tud@string@new@i[#1]#2{%
-  \csgdef{tud@string@separator@#2}{#1}}
+\def\tud@string@new@i[#1]{%
+  \@ifnextchar [{\tud@string@new@ii[#1]}{\tud@string@new@ii[#1][]}}%]
+
+\def\tud@string@new@ii[#1][#2]#3{%
+  \csgdef{tud@string@separator@#3}{#1}%
+  \csgdef{tud@string@end@#3}{#2}}
 
 \def\tud@string@append#1#2{%
   \def\tud@tmp{#2}%
@@ -90,7 +95,7 @@
     \csxdef{tud@string@data@#1}{\expandonce\tud@tmp}}}
 
 \def\tud@string@use#1{%
-  \csuse{tud@string@data@#1}}
+  \csuse{tud@string@data@#1}{\csuse{tud@string@end@#1}}}
 
 \long\def\tud@string@ifempty#1#2#3{%
   \ifcsdef{tud@string@data@#1}{#3}{#2}}
@@ -141,14 +146,22 @@
 
 % \addauthor[authornote1,authornote2]{name}
 
-\tud@string@new[, ]{authors}
-\def\addauthor{\@ifnextchar [{\tud@addauthor}{\tud@addauthor[]}}%]
-\def\tud@addauthor[#1]#2{%
+\newbox\tud@authors@tempboxa
+\newbox\tud@authors@tempboxb
+
+\def\tud@authors@foo#1#2{%
+  \setbox\tud@authors@tempboxa\hbox{#1}%
+  \setbox\tud@authors@tempboxb\hbox{#2}%
+  \ifdimgreater{\wd\tud@authors@tempboxa}{\wd\tud@authors@tempboxb}{\makebox[0pt][l]{#2}#1}{\makebox[0pt][l]{#1}#2}}
+
+\tud@string@new[,\quad][\null]{authors}
+\def\addauthor{\@ifnextchar [{\tud@authors@add}{\tud@authors@add[]}}%]
+\def\tud@authors@add[#1]#2{%
   \tud@string@append{authors}{%
-    \mbox{%
-      {#2}%
-      \@for\tud@tmp:=#1\do{%
-        \tud@authornote@getsymbol{\tud@tmp}}}}}
+    \mbox{#2}%
+    \tud@authors@foo{%
+    \@for\tud@tmp:=#1\do{%
+      \tud@authornote@getsymbol{\tud@tmp}}}}}
 
 % ]]]
 % header [[[
