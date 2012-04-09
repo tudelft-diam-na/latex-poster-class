@@ -17,7 +17,7 @@
 
 % packages [[[
 
-\RequirePackage[a0paper,hmargin=\columnsep,vmargin={0cm,0cm}]{geometry}
+\RequirePackage[paper=a0paper,hmargin=\columnsep,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -249,24 +249,85 @@
 
 \tud@string@new{footer}
 
-\def\ps@plain{%
-  \let\@mkboth\@gobbletwo%
-  \let\@oddhead\@empty%
-  \def\@oddfoot{%
-    \reset@font%
-    \begin{tikzpicture}[remember picture,overlay]
-      \node at (current page.south west)
-        {\begin{tikzpicture}[remember picture, overlay]
-          \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueyi);
-          \fill[tudblue] (-\safetymargin,\footerblueyii) rectangle (\paperwidth+\safetymargin,\footerblueyiii);
-          \fill[black] (-\safetymargin,\footerheight) rectangle (\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth);
-          \tud@string@use{footer}
-         \end{tikzpicture}
-        };
-     \end{tikzpicture}%
-     \hfil}%
-  \let\@evenhead\@empty%
-  \let\@evenfoot\@oddfoot}
+\newif\iftud@usetikz
+\tud@usetikzfalse
+
+\iftud@usetikz
+
+  \def\ps@plain{%
+    \let\@mkboth\@gobbletwo%
+    \let\@oddhead\@empty%
+    \def\@oddfoot{%
+      \reset@font%
+      \begin{tikzpicture}[remember picture,overlay]
+        \node at (current page.south west)
+          {\begin{tikzpicture}[remember picture, overlay]
+            \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueyi);
+            \fill[tudblue] (-\safetymargin,\footerblueyii) rectangle (\paperwidth+\safetymargin,\footerblueyiii);
+            \fill[black] (-\safetymargin,\footerheight) rectangle (\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth);
+            \tud@string@use{footer}
+           \end{tikzpicture}
+          };
+       \end{tikzpicture}%
+       \hfil}%
+    \let\@evenhead\@empty%
+    \let\@evenfoot\@oddfoot}
+
+  \def\tud@footer@getposition#1{\csuse{tud@footer@position@#1}}
+  \def\tud@footer@position@c{above}
+  \def\tud@footer@position@l{above right}
+  \def\tud@footer@position@r{above left}
+
+  \def\tud@footer@addtoimagebar#1#2#3{%
+    \tud@string@append{footer}{%
+      \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerimagey) {%
+        {#3}};}}
+
+  \def\tud@footer@addtotextbar#1#2#3{%
+    \tud@string@append{footer}{%
+      \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerimagetexty) {%
+        \raisebox{0pt}[\height][0pt]{{\footerlogotstextformat #3}}};}}
+
+\else
+
+  \newlength\tud@put@x
+  \newlength\tud@put@y
+  \def\tud@put(#1,#2)#3{%
+    \deflength\tud@put@x{#1}%
+    \deflength\tud@put@y{#2}%
+    \makebox[0pt][l]{\raisebox{\tud@put@y}{\hspace{\tud@put@x}#3}}}
+
+  \newlength\tud@rectangle@width
+  \newlength\tud@rectangle@height
+  \def\tud@rectangle[#1](#2,#3)(#4,#5){%
+    \deflength\tud@rectangle@width{(#4)-(#2)}%
+    \deflength\tud@rectangle@height{(#5)-(#3)}%
+    \tud@put(#2,#3){{\color{#1}\rule{\tud@rectangle@width}{\tud@rectangle@height}}}}
+
+  \def\ps@plain{%
+    \let\@mkboth\@gobbletwo%
+    \let\@oddhead\@empty%
+    \def\@oddfoot{%
+      \reset@font%
+      \makebox[0pt][l]{\raisebox{-\footerheight}{%
+        \hspace{-\columnsep}%
+        \tud@rectangle[black](-\safetymargin,\footerheight)(\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth)%
+        \tud@rectangle[tudblue](-\safetymargin,-\safetymargin)(\paperwidth+\safetymargin,\footerblueyi)%
+        \tud@rectangle[tudblue](-\safetymargin,\footerblueyii)(\paperwidth+\safetymargin,\footerblueyiii)%
+        \tud@string@use{footer}%
+      }}\hfil}%
+    \let\@evenhead\@empty%
+    \let\@evenfoot\@oddfoot}
+
+  \def\tud@footer@addtoimagebar#1#2#3{%
+    \tud@string@append{footer}{%
+      \tud@put(#2,\footerimagey){\makebox[0pt][#1]{{#3}}}}}
+
+  \def\tud@footer@addtotextbar#1#2#3{%
+    \tud@string@append{footer}{%
+      \tud@put(#2,\footerimagetexty){\makebox[0pt][#1]{{\footerlogotstextformat #3}}}}}
+
+\fi
 
 \pagestyle{plain}
 
@@ -303,21 +364,6 @@
 \def\tud@footer@addqrcode#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
   \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerimageheight}}}
-
-\def\tud@footer@getposition#1{\csuse{tud@footer@position@#1}}
-\def\tud@footer@position@c{above}
-\def\tud@footer@position@l{above right}
-\def\tud@footer@position@r{above left}
-
-\def\tud@footer@addtoimagebar#1#2#3{%
-  \tud@string@append{footer}{%
-    \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerimagey) {%
-      {#3}};}}
-
-\def\tud@footer@addtotextbar#1#2#3{%
-  \tud@string@append{footer}{%
-    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerimagetexty) {%
-      \raisebox{0pt}[\height][0pt]{{\footerlogotstextformat #3}}};}}
 
 % ]]]
 % floats [[[
