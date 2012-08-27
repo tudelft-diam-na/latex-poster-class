@@ -2,6 +2,13 @@
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
 \RequirePackage{etoolbox}
 
+\newif\iftud@usetikz
+\tud@usetikzfalse
+\IfFileExists{tikz.sty}{\tud@usetikztrue}{\tud@usetikzfalse}
+
+\newif\iftud@newheadergradient
+\tud@newheadergradientfalse
+
 % options [[[
 
 \DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
@@ -20,9 +27,11 @@
 \RequirePackage[paper=a0paper,hmargin=\columnsep,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{graphicx}
-\RequirePackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{fadings}
+\iftud@usetikz
+  \RequirePackage{tikz}
+  \usetikzlibrary{calc}
+  \usetikzlibrary{fadings}
+\fi
 
 % ]]]
 
@@ -169,7 +178,6 @@
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
 
-\newlength\titleheaderheight
 \def\@maketitle{%
   \newpage%
   \null%
@@ -197,18 +205,31 @@
     \end{center}%
     \par%
     \vskip\columnsep}%
-  \setlength\titleheaderheight{\ht\@tempboxa}%
-  \addtolength\titleheaderheight{\dp\@tempboxa}%
-% \addtolength\titleheaderheight{1.5em}%
-  \begin{tikzpicture}[remember picture,overlay]
-    \node at (current page.north west)
-      {\begin{tikzpicture}[remember picture, overlay]
-        \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\titleheaderheight);
-       \end{tikzpicture}
-      };
-   \end{tikzpicture}%
+  \tud@headergradient{\ht\@tempboxa+\dp\@tempboxa}%
   \unvbox\@tempboxa%
 }
+
+\newlength\tud@titleheaderheight
+\def\tud@headergradient#1{%
+  \deflength\tud@titleheaderheight{#1}%
+  \iftud@usetikz%
+    \begin{tikzpicture}[remember picture,overlay]
+      \node at (current page.north west)
+        {\begin{tikzpicture}[remember picture, overlay]
+          \iftud@newheadergradient
+            \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
+          \else
+            \draw[draw=none,top color=tudbluergb,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
+          \fi
+         \end{tikzpicture}
+        };
+     \end{tikzpicture}%
+  \else%
+    %TODO: something like
+    % \makebox[0pt][l]{%
+    %   \hspace{-\oddsidemargin-\safetymargin}%
+    %   \includegraphics[height=\tud@titleheaderheight+\safetymargin,width=\paperwidth+2\safetymargin]{tudelftpostergradient}}%
+  \fi}
 
 \AfterEndPreamble{\maketitle} % in package etoolbox
 
@@ -248,9 +269,6 @@
 \deflength\footerimagetexty{.5\footerblueyii+.5\footerblueyiii-.5\footertextheight}
 
 \tud@string@new{footer}
-
-\newif\iftud@usetikz
-\tud@usetikzfalse
 
 \iftud@usetikz
 
