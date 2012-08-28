@@ -6,13 +6,14 @@
 \tud@usetikzfalse
 \IfFileExists{tikz.sty}{\tud@usetikztrue}{\tud@usetikzfalse}
 
-\newif\iftud@newheadergradient
-\tud@newheadergradientfalse
+\newif\iftud@experimentalheadergradient
+\tud@experimentalheadergradientfalse
 
 % options [[[
 
 \DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
 \DeclareOption{final}{\PassOptionsToClass{final}{article}}
+\DeclareOption{experimentalheadergradient}{\tud@experimentalheadergradienttrue}
 
 \ExecuteOptions{final}
 \ProcessOptions
@@ -216,7 +217,7 @@
     \begin{tikzpicture}[remember picture,overlay]
       \node at (current page.north west)
         {\begin{tikzpicture}[remember picture, overlay]
-          \iftud@newheadergradient
+          \iftud@experimentalheadergradient
             \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
           \else
             \draw[draw=none,top color=tudbluergb,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
