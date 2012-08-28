@@ -45,7 +45,7 @@ for qro in files:
             qri.write( '\\def\\b#1#2{\\put(#1,#2){\\rule{\\unitlength}{\\unitlength}}}' )
             qri.write( '\\def\\w#1#2{}%\n' )
 
-        for msg in open( qro ).readlines():
+        for msg in sorted( set( open( qro ).readlines() ) ):
 
             if msg.endswith( '\n' ):
                 msg = msg[ :-1 ]
