@@ -299,12 +299,12 @@
 
   \def\tud@footer@addtoimagebar#1#2#3{%
     \tud@string@append{footer}{%
-      \node[inner sep=0pt,\tud@footer@getposition{#1}] at (#2,\footerimagey) {%
+      \node[inner sep=0pt,\tud@footer@getposition{#1}] at (\tud@xpos@resolve{#2},\footerimagey) {%
         {#3}};}}
 
   \def\tud@footer@addtotextbar#1#2#3{%
     \tud@string@append{footer}{%
-      \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (#2,\footerimagetexty) {%
+      \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (\tud@xpos@resolve{#2},\footerimagetexty) {%
         \raisebox{0pt}[\height][0pt]{{\footerlogotstextformat #3}}};}}
 
 \else
@@ -340,11 +340,11 @@
 
   \def\tud@footer@addtoimagebar#1#2#3{%
     \tud@string@append{footer}{%
-      \tud@put(#2,\footerimagey){\makebox[0pt][#1]{{#3}}}}}
+      \tud@put(\tud@xpos@resolve{#2},\footerimagey){\makebox[0pt][#1]{{#3}}}}}
 
   \def\tud@footer@addtotextbar#1#2#3{%
     \tud@string@append{footer}{%
-      \tud@put(#2,\footerimagetexty){\makebox[0pt][#1]{{\footerlogotstextformat #3}}}}}
+      \tud@put(\tud@xpos@resolve{#2},\footerimagetexty){\makebox[0pt][#1]{{\footerlogotstextformat #3}}}}}
 
 \fi
 
@@ -383,6 +383,19 @@
 \def\tud@footer@addqrcode#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
   \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerimageheight}}}
+
+% position aliases
+
+\def\tud@xpos@resolve#1{%
+  \ifcsdef{tud@xpos@@\detokenize{#1}}{\csuse{tud@xpos@@#1}}{#1}}
+
+\csdef{tud@xpos@@page.center}{.5\paperwidth}%
+\csdef{tud@xpos@@left column.center}{.26\paperwidth}% FIXME
+\csdef{tud@xpos@@left column.left}{\columnsep}%
+\csdef{tud@xpos@@left column.right}{.48\paperwidth}% FIXME
+\csdef{tud@xpos@@right column.center}{.74\paperwidth}% FIXME
+\csdef{tud@xpos@@right column.left}{.52\paperwidth}% FIXME
+\csdef{tud@xpos@@right column.right}{.96\paperwidth}% FIXME
 
 % ]]]
 % floats [[[
