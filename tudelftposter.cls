@@ -75,7 +75,7 @@
 
 \normalsize
 \setlength\parindent{2em}
-\setlength\parskip{0pt}
+\setlength\parskip{0pt plus .5ex}
 %\setlength\parindent{0pt}
 %\setlength\parskip{2ex}
 \setlength\floatsep{45pt plus 5pt minus 5pt}
@@ -83,6 +83,11 @@
 \setlength\intextsep{45pt plus 5pt minus 15pt}
 \setlength\dblfloatsep{45pt plus 5pt minus 5pt}
 \setlength\dbltextfloatsep{86pt plus 9pt minus 18pt}
+
+\setlength\abovedisplayskip{32pt plus 3pt minus 3pt}
+\setlength\abovedisplayshortskip{14pt plus 3pt minus 3pt}
+\setlength\belowdisplayskip{\abovedisplayskip}
+\setlength\belowdisplayshortskip{\abovedisplayskip}
 
 % ]]]
 
@@ -119,8 +124,8 @@
 \setcounter{secnumdepth}{0}
 \renewcommand\section{%
   \@startsection{section}{1}{0pt}%
-   {-.5ex plus -1ex minus -.2ex}%
-   {.5ex plus .5ex}%
+   {-2ex plus -1ex minus -.2ex}%
+   {1ex plus 1ex}%
    {\large\bfseries\color{tudblue}}%
 }
 
