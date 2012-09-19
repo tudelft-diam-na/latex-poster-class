@@ -221,7 +221,7 @@
   \iftud@usetikz%
     \begin{tikzpicture}[remember picture,overlay]
       \node at (current page.north west)
-        {\begin{tikzpicture}[remember picture, overlay]
+        {\begin{tikzpicture}[remember picture,overlay]
           \iftud@experimentalheadergradient
             \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
           \else
@@ -229,7 +229,7 @@
           \fi
          \end{tikzpicture}
         };
-     \end{tikzpicture}%
+    \end{tikzpicture}%
   \else%
     %TODO: something like
     % \makebox[0pt][l]{%
