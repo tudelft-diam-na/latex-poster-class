@@ -40,10 +40,7 @@
 
 % color definitions [[[
 
-%\definecolor{tudbluergb}{rgb}{0,0.6484375,0.8359375}
-%\definecolor{tudblue}{cmyk}{1,0,0,0}
-
-\definecolor{tudcyan}{HTML}{3d98de}
+\definecolor{tudcyan}{HTML}{00a6d6}
 
 % ]]]
 % font size definitions (TODO: should be placed in sizeXXposter.clo files ...) [[[
