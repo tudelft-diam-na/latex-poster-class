@@ -1,0 +1,19 @@
+\documentclass{article}
+% http://www.zedimage.com/pms-cmyk-hex.php
+% latex package spotcolor
+\pdfminorversion=4
+\usepackage[paperwidth=1in,paperheight=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{fadings}
+\definecolor{tudcyan}{HTML}{3d98de}
+\pagestyle{empty}
+\begin{document}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node at (current page.north west)
+      {\begin{tikzpicture}[remember picture,overlay]
+        \fill[tudcyan,path fading=south] (0,0) rectangle (\paperwidth,-\paperheight);
+       \end{tikzpicture}
+      };
+  \end{tikzpicture}%
+\end{document}

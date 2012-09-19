@@ -26,20 +26,24 @@
 % packages [[[
 
 \RequirePackage[paper=a0paper,hmargin=\columnsep,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
-\RequirePackage[cmyk]{xcolor}
+\RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \iftud@usetikz
   \RequirePackage{tikz}
   \usetikzlibrary{calc}
   \usetikzlibrary{fadings}
+\else%
+  \RequirePackage{eso-pic}
 \fi
 
 % ]]]
 
 % color definitions [[[
 
-\definecolor{tudbluergb}{rgb}{0,0.6484375,0.8359375}
-\definecolor{tudblue}{cmyk}{1,0,0,0}
+%\definecolor{tudbluergb}{rgb}{0,0.6484375,0.8359375}
+%\definecolor{tudblue}{cmyk}{1,0,0,0}
+
+\definecolor{tudcyan}{HTML}{3d98de}
 
 % ]]]
 % font size definitions (TODO: should be placed in sizeXXposter.clo files ...) [[[
@@ -126,7 +130,7 @@
   \@startsection{section}{1}{0pt}%
    {-2ex plus -1ex minus -.2ex}%
    {1ex plus 1ex}%
-   {\large\bfseries\color{tudblue}}%
+   {\large\bfseries\color{tudcyan}}%
 }
 
 % ]]]
@@ -217,24 +221,30 @@
 
 \newlength\tud@titleheaderheight
 \def\tud@headergradient#1{%
-  \deflength\tud@titleheaderheight{#1}%
+  \global\deflength\tud@titleheaderheight{#1}%
   \iftud@usetikz%
     \begin{tikzpicture}[remember picture,overlay]
       \node at (current page.north west)
         {\begin{tikzpicture}[remember picture,overlay]
           \iftud@experimentalheadergradient
-            \fill[tudblue,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
+            \fill[tudcyan,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
           \else
-            \draw[draw=none,top color=tudbluergb,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
+            \draw[draw=none,top color=tudcyan,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
           \fi
          \end{tikzpicture}
         };
     \end{tikzpicture}%
   \else%
-    %TODO: something like
-    % \makebox[0pt][l]{%
-    %   \hspace{-\oddsidemargin-\safetymargin}%
-    %   \includegraphics[height=\tud@titleheaderheight+\safetymargin,width=\paperwidth+2\safetymargin]{tudelftpostergradient}}%
+    \null%
+    \AddToShipoutPicture*{%
+      \newlength\tud@header@tmpi%
+      \newlength\tud@header@tmpii%
+      \newlength\tud@header@tmpiii%
+      \deflength{\tud@header@tmpi}{\paperheight-\tud@titleheaderheight}%
+      \deflength{\tud@header@tmpii}{\paperwidth+2\safetymargin}%
+      \deflength{\tud@header@tmpiii}{\tud@titleheaderheight+\safetymargin}%
+      \put(0,0){\hspace{-\safetymargin}\raisebox{\tud@header@tmpi}{\includegraphics[height=\tud@header@tmpiii,width=\tud@header@tmpii]{tudelftgradient}}}%
+    }%
   \fi}
 
 \AfterEndPreamble{\maketitle} % in package etoolbox
@@ -286,8 +296,8 @@
       \begin{tikzpicture}[remember picture,overlay]
         \node at (current page.south west)
           {\begin{tikzpicture}[remember picture, overlay]
-            \fill[tudblue] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueyi);
-            \fill[tudblue] (-\safetymargin,\footerblueyii) rectangle (\paperwidth+\safetymargin,\footerblueyiii);
+            \fill[tudcyan] (-\safetymargin,-\safetymargin) rectangle (\paperwidth+\safetymargin,\footerblueyi);
+            \fill[tudcyan] (-\safetymargin,\footerblueyii) rectangle (\paperwidth+\safetymargin,\footerblueyiii);
             \fill[black] (-\safetymargin,\footerheight) rectangle (\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth);
             \tud@string@use{footer}
            \end{tikzpicture}
@@ -336,8 +346,8 @@
       \makebox[0pt][l]{\raisebox{-\footerheight}{%
         \hspace{-\columnsep}%
         \tud@rectangle[black](-\safetymargin,\footerheight)(\paperwidth+\safetymargin,\footerheight+\footerblacklinewidth)%
-        \tud@rectangle[tudblue](-\safetymargin,-\safetymargin)(\paperwidth+\safetymargin,\footerblueyi)%
-        \tud@rectangle[tudblue](-\safetymargin,\footerblueyii)(\paperwidth+\safetymargin,\footerblueyiii)%
+        \tud@rectangle[tudcyan](-\safetymargin,-\safetymargin)(\paperwidth+\safetymargin,\footerblueyi)%
+        \tud@rectangle[tudcyan](-\safetymargin,\footerblueyii)(\paperwidth+\safetymargin,\footerblueyiii)%
         \tud@string@use{footer}%
       }}\hfil}%
     \let\@evenhead\@empty%
