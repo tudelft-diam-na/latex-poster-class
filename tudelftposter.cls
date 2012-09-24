@@ -184,6 +184,10 @@
 % ]]]
 % header [[[
 
+\newcommand{\tudstyleheadtitle}{\color{white}\huge\bfseries}
+\newcommand{\tudstyleheadauthors}{\Large}
+\newcommand{\tudstyleheadauthornotes}{\fontsize{32}{45}\selectfont}
+
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
 
@@ -194,21 +198,23 @@
     \vskip 2em%
     \begin{center}%
     \let \footnote \thanks
-      {\color{white}\huge\bfseries \@title \par}%
+      {\tudstyleheadtitle \@title \par}%
       \vskip 1.5em%
       {\Large
         \lineskip .5em%
-        \tud@string@ifempty{authors}{%
+        \tud@string@ifempty{authors}{{%
+          \tudstyleheadauthors%
           % old style authors
           \begin{tabular}[t]{c}%
             \@author
-          \end{tabular}%
+          \end{tabular}}%
         }{%
           % new style authors
-          \tud@string@use{authors}%
+          {\tudstyleheadauthors%
+          \tud@string@use{authors}}%
           \par\vskip .5em%
-          \fontsize{32}{45}\selectfont%
-          \tud@string@use{authornotes}%
+          {\tudstyleheadauthornotes%
+          \tud@string@use{authornotes}}%
         }%
         \par}%
     \end{center}%
