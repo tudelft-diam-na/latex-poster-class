@@ -45,11 +45,13 @@
 % ]]]
 % font size definitions (TODO: should be placed in sizeXXposter.clo files ...) [[[
 
-\RequirePackage{fix-cm}
+\RequirePackage{lmodern}
+\RequirePackage[T1]{fontenc}
+\rmfamily
 
 %% size 24.88pt
 %\renewcommand{\tiny}{\fontsize{12}{14}\selectfont}
-%\renewcommand{\scriptsize}{\fontsize{14.4}{18}\selectfont}   
+%\renewcommand{\scriptsize}{\fontsize{14.4}{18}\selectfont}
 %\renewcommand{\footnotesize}{\fontsize{17.28}{22}\selectfont}
 %\renewcommand{\small}{\fontsize{20.74}{25}\selectfont}
 %\renewcommand{\normalsize}{\fontsize{24.88}{30}\selectfont}
