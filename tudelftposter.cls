@@ -445,7 +445,7 @@
 \@beginparpenalty -\@lowpenalty
 \@endparpenalty   -\@lowpenalty
 \@itempenalty     -\@lowpenalty
-\renewcommand\labelitemi{{\rmfamily\textbullet}}
+\renewcommand\labelitemi{{\fontfamily{lmr}\selectfont\textbullet}}
 \renewcommand\labelitemii{\normalfont\bfseries \textendash}
 \renewcommand\labelitemiii{\textasteriskcentered}
 \renewcommand\labelitemiv{\textperiodcentered}
