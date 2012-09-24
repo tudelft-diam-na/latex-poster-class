@@ -20,7 +20,7 @@
 
 % ]]]
 
-\LoadClass[twocolumn]{article}
+\LoadClass[onecolumn]{article}
 \setlength{\columnsep}{3cm}
 
 % packages [[[
@@ -35,6 +35,7 @@
 \else%
   \RequirePackage{eso-pic}
 \fi
+\RequirePackage{multicol}
 
 % ]]]
 
@@ -252,7 +253,8 @@
     }%
   \fi}
 
-\AfterEndPreamble{\maketitle} % in package etoolbox
+\AfterEndPreamble{\maketitle\begin{multicols}{2}} % in package etoolbox
+\AtEndDocument{\end{multicols}}
 
 % ]]]
 % footer [[[
@@ -420,11 +422,12 @@
 % ]]]
 % floats [[[
 
-\RequirePackage{float}
-\floatplacement{figure}{h}
-\floatplacement{table}{h}
-
-\RequirePackage[font={small,sl}]{caption}
+% TODO: redefine figure and table
+%\RequirePackage{float}
+%\floatplacement{figure}{h}
+%\floatplacement{table}{h}
+%
+%\RequirePackage[font={small,sl}]{caption}
 
 % ]]]
 % list environments [[[
