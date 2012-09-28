@@ -124,13 +124,14 @@
 % fonts and sections [[[
 
 \renewcommand{\familydefault}{\sfdefault}
+\newcommand{\tudstylesection}{\normalfont\sffamily\large\bfseries\color{tudcyan}}
 
 \setcounter{secnumdepth}{0}
 \renewcommand\section{%
   \@startsection{section}{1}{0pt}%
    {-2ex plus -1ex minus -.2ex}%
    {1ex plus 1ex}%
-   {\large\bfseries\color{tudcyan}}%
+   {\tudstylesection}%
 }
 
 % ]]]
@@ -185,9 +186,9 @@
 % ]]]
 % header [[[
 
-\newcommand{\tudstyleheadtitle}{\color{white}\huge\bfseries}
-\newcommand{\tudstyleheadauthors}{\Large}
-\newcommand{\tudstyleheadauthornotes}{\fontsize{32}{45}\selectfont}
+\newcommand{\tudstyleheadtitle}{\normalfont\sffamily\color{white}\huge\bfseries}
+\newcommand{\tudstyleheadauthors}{\normalfont\sffamily\Large}
+\newcommand{\tudstyleheadauthornotes}{\normalfont\sffamily\fontsize{32}{45}\selectfont}
 
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
@@ -285,9 +286,9 @@
 \newlength\footerimagey
 \deflength\footerimagey{\footerblueyiii+\footerimagemargin}
 
-\newcommand{\footerlogotstextformat}{\color{white}\small\bfseries}
+\newcommand{\tudstylefooter}{\normalfont\sffamily\color{white}\small\bfseries}
 \newlength\footertextheight
-\settoheight\footertextheight{\footerlogotstextformat X}
+\settoheight\footertextheight{\tudstylefooter X}
 \newlength\footerimagetexty
 \deflength\footerimagetexty{.5\footerblueyii+.5\footerblueyiii-.5\footertextheight}
 
@@ -327,7 +328,7 @@
   \def\tud@footer@addtotextbar#1#2#3{%
     \tud@string@append{footer}{%
       \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (\tud@xpos@resolve{#2},\footerimagetexty) {%
-        \raisebox{0pt}[\height][0pt]{{\footerlogotstextformat #3}}};}}
+        \raisebox{0pt}[\height][0pt]{{\tudstylefooter #3}}};}}
 
 \else
 
@@ -366,7 +367,7 @@
 
   \def\tud@footer@addtotextbar#1#2#3{%
     \tud@string@append{footer}{%
-      \tud@put(\tud@xpos@resolve{#2},\footerimagetexty){\makebox[0pt][#1]{{\footerlogotstextformat #3}}}}}
+      \tud@put(\tud@xpos@resolve{#2},\footerimagetexty){\makebox[0pt][#1]{{\tudstylefooter #3}}}}}
 
 \fi
 
