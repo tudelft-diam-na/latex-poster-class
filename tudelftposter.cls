@@ -218,7 +218,7 @@
           {\tudstyleheadauthornotes%
           \tud@string@use{authornotes}}%
         }%
-        \par}%
+      }%
     \end{center}%
     \par%
     \vskip\columnsep}%
