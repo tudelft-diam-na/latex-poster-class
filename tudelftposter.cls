@@ -460,6 +460,8 @@
 
 \newlength{\qrsize}
 
+\RequirePackage[hidelinks,implicit=false,bookmarks=false]{hyperref}
+
 \def\tud@qr@insert#1#2{%
   \bgroup%
     \immediate\write\tud@qr@out{#1}%
@@ -472,7 +474,7 @@
     \edef\qrmsgout{#1}%
     \setlength{\qrsize}{#2}%
     \IfFileExists{\jobname.qri}{\input{\jobname.qri}}{}%
-    \qrcode%
+    \href{#1}{\qrcode}%
   \egroup}
 
 % ]]]
