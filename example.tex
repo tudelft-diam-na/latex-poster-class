@@ -32,7 +32,10 @@
 \addauthor[msp]{R. Bell}
 
 \addfootimage(c:right column.center)[Delft Institute of Applied Mathematics]{tudelft}
-\addfootqrcode(l:left column.left)[research web page]{http://ta.twi.tudelft.nl}
+\ifqrcodessupported
+  % NOTE: compile this document with lualatex instead of pdflatex
+  \addfootqrcode(l:left column.left)[research web page]{http://ta.twi.tudelft.nl}
+\fi
 
 \begin{document}
 

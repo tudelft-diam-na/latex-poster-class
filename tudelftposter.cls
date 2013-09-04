@@ -475,27 +475,28 @@
 
 % QR code [[[
 
-\newwrite\tud@qr@out
-\immediate\openout\tud@qr@out\jobname.qro
-
 \newlength{\qrsize}
 
 \RequirePackage[hidelinks,implicit=false,bookmarks=false]{hyperref}
 
-\def\tud@qr@insert#1#2{%
-  \bgroup%
-    \immediate\write\tud@qr@out{#1}%
-    \def\qrcode{%
-      \ClassWarningNoLine{tudelftposter}{Please run `python generate-qrcode.py \jobname` to generate the QR codes}%
-      \begin{tikzpicture}[x=#2,y=#2]%
-        \fill[color=red] (0,0) rectangle (1,1);%
-        \node[below right,color=white] at (0,1) {\parbox{#2}{\tiny\raggedright run generate-qrcode.py}};%
-      \end{tikzpicture}}%
-    \edef\qrmsgout{#1}%
-    \setlength{\qrsize}{#2}%
-    \IfFileExists{\jobname.qri}{\input{\jobname.qri}}{}%
-    \href{#1}{\qrcode}%
-  \egroup}
+\newif\ifqrcodessupported
+\ifx\directlua\undefined
+  \qrcodessupportedfalse
+  \def\tud@qr@insert#1#2{%
+    \ClassError{tudelftposter}{%
+        Generating QR codes requires running lua code.%
+      }{%
+        Please compile this document with lualatex when using QR codes}}
+\else
+  \qrcodessupportedtrue
+  \directlua{qrcode=dofile("qrcodehelper.lua")}
+  \def\tud@qr@insert#1#2{%
+    \bgroup%
+      \setlength{\qrsize}{#2}%
+      \href{#1}{\directlua{qrcode.generate("\luaescapestring{#1}")}}%
+    \egroup}
+\fi
+
 
 % ]]]
 
