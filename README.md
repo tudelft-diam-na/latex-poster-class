@@ -14,6 +14,7 @@ This document class requires the following latex packages:
 * tikz (with libraries calc and fadings)
 * etoolbox
 * multicol
+* caption
 
 In Debian Wheezy, installing `texlive-latex-extra` is sufficient.
 
