@@ -61,6 +61,13 @@
 
 \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
+
+% Fix small math symbols.
+% source: http://tex.stackexchange.com/questions/74623/big-integral-in-lmodern
+% TODO: Is there a better way to fix this?
+\DeclareFontFamily{OMX}{lmex}{}
+\DeclareFontShape{OMX}{lmex}{m}{n}{<-> lmex10}{}
+
 \rmfamily
 
 %% size 24.88pt
