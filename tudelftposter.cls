@@ -403,12 +403,27 @@
 % ]]]
 % floats [[[
 
-% TODO: redefine figure and table
-%\RequirePackage{float}
-%\floatplacement{figure}{h}
-%\floatplacement{table}{h}
-%
-%\RequirePackage[font={small,sl}]{caption}
+\setlength{\intextsep}{\baselineskip}
+
+\renewenvironment{table}[1][1]%
+{%
+  \setlength{\parindent}{0pt}%
+  \vspace{\baselineskip}%
+  \def\@captype{table}
+}{%
+  \vspace{\baselineskip}%
+}
+
+\renewenvironment{figure}[1][1]%
+{%
+  \setlength{\parindent}{0pt}%
+  \vspace{\intextsep}%
+  \def\@captype{figure}
+}{%
+  \vspace{\intextsep}%
+}
+
+\RequirePackage[font={small,sl}]{caption}
 
 % ]]]
 % list environments [[[
@@ -471,7 +486,7 @@
 \newlength\tud@block@textwidth%
 
 \newcommand{\experimentalblockleft}[1]{%
-  \begin{figure}[h]%
+  \begin{figure}
     \setlength\tud@block@inset{\oddsidemargin}%
     \addtolength\tud@block@inset{1in}%
     \addtolength\tud@block@inset{\safetymargin}%
@@ -499,7 +514,7 @@
 }
 
 \newcommand{\experimentalblockright}[1]{%
-  \begin{figure}[h]%
+  \begin{figure}%
     \setlength\tud@block@inset{\evensidemargin}%
     \addtolength\tud@block@inset{1in}%
     \addtolength\tud@block@inset{\safetymargin}%
