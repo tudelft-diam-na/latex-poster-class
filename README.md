@@ -8,13 +8,13 @@ Requirements
 
 This document class requires the following latex packages:
 
-* geometry
-* xcolor
-* graphicx
-* tikz (with libraries calc and fadings)
-* etoolbox
-* multicol
-* caption
+* geometry,
+* xcolor,
+* graphicx,
+* tikz (with libraries calc and fadings),
+* etoolbox,
+* multicol and
+* caption.
 
 In Debian Wheezy, installing `texlive-latex-extra` is sufficient.
 
