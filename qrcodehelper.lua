@@ -18,7 +18,7 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 -- THE SOFTWARE.
 
-qrencode = dofile("qrencode.lua")
+qrencode = dofile(kpse.find_file("qrencode.lua"))
 
 local function generate( codeword )
 

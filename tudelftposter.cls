@@ -452,7 +452,7 @@
         Please compile this document with lualatex when using QR codes}}
 \else
   \qrcodessupportedtrue
-  \directlua{qrcode=dofile("qrcodehelper.lua")}
+  \directlua{qrcode=dofile(kpse.find_file("qrcodehelper.lua"))}
   \def\tud@qr@insert#1#2{%
     \bgroup%
       \setlength{\qrsize}{#2}%
