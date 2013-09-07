@@ -368,13 +368,19 @@
 \def\tud@xpos@resolve#1{%
   \ifcsdef{tud@xpos@@\detokenize{#1}}{\csuse{tud@xpos@@#1}}{#1}}
 
-\csdef{tud@xpos@@page.center}{.5\paperwidth}%
-\csdef{tud@xpos@@left column.center}{.26\paperwidth}% FIXME
-\csdef{tud@xpos@@left column.left}{\columnsep}%
-\csdef{tud@xpos@@left column.right}{.48\paperwidth}% FIXME
-\csdef{tud@xpos@@right column.center}{.74\paperwidth}% FIXME
-\csdef{tud@xpos@@right column.left}{.52\paperwidth}% FIXME
-\csdef{tud@xpos@@right column.right}{.96\paperwidth}% FIXME
+\def\tud@def@xpos#1#2{%
+  \expandafter\newlength\csname tud@xpos@@#1\endcsname%
+  \expandafter\deflength\csname tud@xpos@@#1\endcsname{#2}}%
+
+\tud@def@xpos{page.center}{.5\paperwidth}%
+\tud@def@xpos{page.left}{0pt}%
+\tud@def@xpos{page.right}{\paperwidth}%
+\tud@def@xpos{left column.center}{.25\paperwidth+.25\columnsep}%
+\tud@def@xpos{left column.left}{\columnsep}%
+\tud@def@xpos{left column.right}{.5\paperwidth-.5\columnsep}%
+\tud@def@xpos{right column.center}{.75\paperwidth-.25\columnsep}%
+\tud@def@xpos{right column.left}{.5\paperwidth+.5\columnsep}%
+\tud@def@xpos{right column.right}{\paperwidth-\columnsep}%
 
 % ]]]
 % floats [[[
