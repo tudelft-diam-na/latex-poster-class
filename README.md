@@ -118,11 +118,20 @@ Document body
 The class inherits the `article` class, hence supports all the commands and
 environments defined there.
 
+Alternatively, you can design the poster body completely using tikz.  Just
+create a `tikzpicture` environment and start drawing.  This class provides a
+special tikz node `body` which defines the drawable area.  The following example
+draws a rectangle indicating the drawable area.
+
+    \documentclass{tudelftposter}
+    % preamble ...
     \begin{document}
         \begin{tikzpicture}[remember picture,overlay]
             \draw (body.south west) rectangle (body.north east);
         \end{tikzpicture}
     \end{document}
+
+You can use the preamble from the example below.
 
 Example
 -------
