@@ -89,11 +89,24 @@ the footer:
     \addfoottext(ALIGNMENT:POSITION){TEXT}
 
 The argument `POSITION` specifies the position of the object.  There are several
-predefined positions: `page.center`, `page.left`, `page.right`, `left
-column.center`, `left column.left`, `left column.right`, `right column.center`,
-`right column.left`, `right column.right`.  You can also specify a length.  The
-argument `ALIGNMENT` controls the alignment with respect to `POSITION` and must
-be one of `l` (align left), `c` (align centre) or `r` (align right).
+predefined positions:
+
+* `page.center`,
+* `page.left`,
+* `page.right`,
+* `left column.center`,
+* `left column.left`,
+* `left column.right`,
+* `right column.center`,
+* `right column.left` and
+* `right column.right`.
+
+You can also specify a length.  The argument `ALIGNMENT` controls the alignment
+with respect to `POSITION` and must be one of
+
+* `l` (align left),
+* `c` (align centre) or
+* `r` (align right).
 
 In the command `\addfootimage` the argument `FILENAME` should refer to an image.
 The image will be resized to fit the height of the image bar.  If the optional
