@@ -27,9 +27,8 @@ local function generate( codeword )
         tex.print(tab)
     else
         tex.print( '\\begingroup%' )
-        tex.print( '\\def\\b#1#2{\\put(#1,#2){\\rule{\\unitlength}{\\unitlength}}}%' )
-        tex.print( string.format( '\\deflength{\\unitlength}{\\qrsize/%u}%%', #tab ) )
-        tex.print( string.format( '\\begin{picture}(%u,%u)%%', #tab, #tab ) )
+        tex.print( '\\def\\b#1#2{\\fill[black] (#1,#2) rectangle ++(1,1);}%' )
+        tex.print( string.format( '\\begin{tikzpicture}[x=\\qrsize/%u,y=\\qrsize/%u]%%', #tab, #tab ) )
         for i=1,#tab do
             for j=1,#tab[i] do
                 if tab[i][j] > 0 then
@@ -37,7 +36,7 @@ local function generate( codeword )
                 end
             end
         end
-        tex.print( '\\end{picture}%' )
+        tex.print( '\\end{tikzpicture}%' )
         tex.print( '\\endgroup%' )
     end
 
