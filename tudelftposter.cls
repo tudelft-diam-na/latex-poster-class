@@ -404,8 +404,6 @@
 % ]]]
 % floats [[[
 
-\setlength{\intextsep}{\baselineskip}
-
 \renewenvironment{table}[1][1]%
 {%
   \setlength{\parindent}{0pt}%
