@@ -48,6 +48,7 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{fadings}
 \RequirePackage{multicol}
+\RequirePackage{caption}
 
 % ]]]
 
@@ -423,7 +424,7 @@
   \vspace{\intextsep}%
 }
 
-\RequirePackage[font={small,sl}]{caption}
+\captionsetup{font={small,sl}}
 
 % ]]]
 % list environments [[[
