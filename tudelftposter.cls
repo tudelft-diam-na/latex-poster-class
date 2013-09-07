@@ -253,8 +253,26 @@
       };
   \end{tikzpicture}}
 
-\AfterEndPreamble{\maketitle\begin{multicols}{2}} % in package etoolbox
-\AtEndDocument{\end{multicols}}
+\newcommand{\tud@set@tikz@body}{%
+  \newlength{\tud@body@t}\deflength{\tud@body@t}{\paperheight-\tud@titleheaderheight-\columnsep}%
+  \newlength{\tud@body@b}\deflength{\tud@body@b}{\footerheight+\columnsep}%
+  \newlength{\tud@body@l}\deflength{\tud@body@l}{\columnsep}%
+  \newlength{\tud@body@r}\deflength{\tud@body@r}{\paperwidth-\columnsep}%
+  \csdef{pgf@sh@ns@body}{rectangle}%
+  \csdef{pgf@sh@np@body}{%
+    \def\southwest{\pgfqpoint{\tud@body@l}{\tud@body@b}}%
+    \def\northeast{\pgfqpoint{\tud@body@r}{\tud@body@t}}%
+  }%
+  \csdef{pgf@sh@nt@body}{{1}{0}{0}{1}{0pt}{0pt}}%
+  \csdef{pgf@sh@pi@body}{pgfpageorigin}%
+}
+
+\AfterEndPreamble{%
+  \maketitle%
+  \tud@set@tikz@body%
+  \begin{multicols}{2}}
+\AtEndDocument{%
+  \end{multicols}}
 
 % ]]]
 % footer [[[
