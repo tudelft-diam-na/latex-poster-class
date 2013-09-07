@@ -1,0 +1,168 @@
+#! /usr/bin/env python
+#
+# Copyright (c) 2013 Joost van Zwieten
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+from __future__ import print_function
+
+import sys
+import os
+import shutil
+import subprocess
+
+def usage():
+
+    print( '''\
+Install the tudelft poster class in a texmf tree.
+
+Usage:
+
+    install --home                   # install in TEXMFHOME (tex variable)
+    install --local                  # install in TEXMFLOCAL (tex variable)
+    install --texmf=/path/to/texmf   # install in custom texmf directory
+
+If in doubt, use the first version.
+'''.format( prog = sys.argv[0] ) )
+    raise SystemExit
+
+def kpsewhich( f, arg = '' ):
+
+    if arg:
+        cmdline = 'kpsewhich', arg, f
+    else:
+        cmdline = 'kpsewhich', f
+    p = subprocess.Popen( cmdline, cwd = '/', stdout = subprocess.PIPE )
+    stdout, tmp = p.communicate()
+    if p.returncode:
+        return None
+    else:
+        if stdout.endswith( '\r\n' ):
+            stdout = stdout[ :-2 ]
+        elif stdout.endswith( '\n' ):
+            stdout = stdout[ :-1 ]
+        return stdout
+
+# parse arguments
+
+if len( sys.argv ) != 2:
+    usage()
+elif sys.argv[1] == '--help' or sys.argv[1] == '-h':
+    usage()
+elif sys.argv[1] == '--home':
+    texmf = kpsewhich( 'TEXMFHOME', '-var-value' )
+    assert texmf, 'tex variable not set'
+    if not texmf:
+        print( 'ERROR: The tex variable TEXMFHOME is not defined.  Please specify the texmf' )
+        print( 'directory manually are define the environment variable `TEXMFHOME`.' )
+        raise SystemExit( 1 )
+elif sys.argv[1] == '--local':
+    texmf = kpsewhich( 'TEXMFLOCAL', '-var-value' )
+    assert texmf, 'tex variable not set'
+    if not texmf:
+        print( 'ERROR: The tex variable TEXMFLOCAL is not defined.  Please specify the texmf' )
+        print( 'directory manually are define the environment variable `TEXMFLOCAL`.' )
+        raise SystemExit( 1 )
+elif sys.argv[1].startswith( '--texmf=' ):
+    texmf = sys.argv[1][8:]
+else:
+    usage()
+
+# check existing installation
+
+path = kpsewhich( 'tudelftposter.cls' )
+if path and not path.startswith( texmf ):
+    print( '''\
+ERROR: Already installed in a different location:
+
+    {}
+
+Please remove the old installation first.'''.format( os.path.split( path )[0] ) )
+    raise SystemExit( 1 )
+
+# create directories
+
+if not os.path.exists( texmf ):
+    try:
+        os.makedirs( texmf )
+    except OSError, e:
+        print( 'ERROR: Failed to create directory.' )
+        print( e )
+        raise SystemExit( 1 )
+if not os.path.isdir( texmf ):
+    print( 'ERROR: The specified texmf root `{}` is not a directory.'.format( texmf ) )
+    raise SystemExit( 1 )
+
+texmf_class = os.path.join( texmf, 'tex', 'latex', 'tudelftposter' )
+if not os.path.exists( texmf_class ):
+    try:
+        os.makedirs( texmf_class )
+    except OSError, e:
+        print( 'ERROR: Failed to create directory.' )
+        print( e )
+        raise SystemExit( 1 )
+if not os.path.isdir( texmf_class ):
+    print( 'ERROR: `{}` is not a directory.'.format( texmf_class ) )
+
+# collect files to copy
+
+src = os.path.split( __file__ )[0]
+
+batch = []
+for f in ( 'tudelftposter.cls', 'qrcodehelper.lua', 'tudelft.pdf' ):
+    s = os.path.join( src, f )
+    if not os.path.exists( s ):
+        print( 'ERROR: Cannot find `{}`'.format( f ) )
+    batch.append( ( s, os.path.join( texmf_class, f ) ) )
+
+f = 'qrencode.lua'
+s = os.path.join( src, 'luaqrcode', 'qrencode.lua' )
+if not os.path.exists( s ):
+    print( 'ERROR: Cannot find `{}`'.format( s ) )
+    print( 'Please check out the submodule `luaqrcode` by running the following commands:' )
+    print( '    git submodule init' )
+    print( '    git submodule update' )
+batch.append( ( s, os.path.join( texmf_class, f ) ) )
+
+# copy files
+
+for s, d in batch:
+    try:
+        shutil.copyfile( s, d )
+    except IOError, e:
+        print( 'ERROR: Failed to copy file.' )
+        print( e )
+        raise SystemExit( 1 )
+
+# update ls-R files, if necessary
+
+if not kpsewhich( 'tudelftposter.cls' ):
+    p = subprocess.Popen( ( 'mktexlsr', ), stdout = subprocess.PIPE )
+    p.communicate()
+if not kpsewhich( 'tudelftposter.cls' ):
+    print( '''\
+WARNING: (pdf,lua)latex cannot find the installed files.  Please add the
+specified texmf directory to the tex configuration files or install in the texmf
+home directory by running
+
+    install --home
+
+''' )
+
+print( 'Successfully installed in `{}`.'.format( texmf ) )
