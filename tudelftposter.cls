@@ -419,7 +419,10 @@
 
 \newlength{\qrsize}
 
-\RequirePackage[hidelinks,implicit=false,bookmarks=false]{hyperref}
+\def\tud@href@wrapper#1#2{%
+  \ifcsdef{href}{%
+    \href{#1}{#2}}{%
+    #2}}
 
 \newif\ifqrcodessupported
 \ifx\directlua\undefined
@@ -435,7 +438,7 @@
   \def\tud@qr@insert#1#2{%
     \bgroup%
       \setlength{\qrsize}{#2}%
-      \href{#1}{\directlua{qrcode.generate("\luaescapestring{#1}")}}%
+      \tud@href@wrapper{#1}{\directlua{qrcode.generate("\luaescapestring{#1}")}}%
     \egroup}
 \fi
 
