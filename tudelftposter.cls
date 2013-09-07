@@ -207,7 +207,7 @@
 % header [[[
 
 \newcommand{\tudstyleheadtitle}{\normalfont\sffamily\color{white}\huge\bfseries}
-\newcommand{\tudstyleheadauthors}{\normalfont\sffamily\Large}
+\newcommand{\tudstyleheadauthors}{\normalfont\sffamily\Large\frenchspacing}
 \newcommand{\tudstyleheadauthornotes}{\normalfont\sffamily\fontsize{32}{45}\selectfont}
 
 \newlength\safetymargin
