@@ -38,6 +38,16 @@
 \ifqrcodessupported
   % NOTE: compile this document with lualatex instead of pdflatex
   \addfootqrcode(l:left column.left)[research web page]{http://ta.twi.tudelft.nl}
+\else
+  \addfootobject*(l:left column.left)[research web page]{%
+    \begin{tikzpicture}
+      \node[red,draw,inner sep=1ex] {%
+        \begin{minipage}{15cm}
+          \footnotesize%
+          Please compile this document with lualatex to see a QR code here:\\
+          \null\texttt{\quad lualatex \jobname}
+        \end{minipage}};
+    \end{tikzpicture}}
 \fi
 
 \begin{document}
