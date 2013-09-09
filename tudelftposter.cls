@@ -18,7 +18,7 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 % THE SOFTWARE.
 %
-\ProvidesClass{tudelftposter}[2012/03/29, v. 1.1]
+\ProvidesClass{tudelftposter}[2013/09/09, v. 1.0]
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
 \RequirePackage{etoolbox}
 
