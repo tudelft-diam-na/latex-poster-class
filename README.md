@@ -70,6 +70,17 @@ affiliations or email addresses.  The argument `LABEL` should be a unique label
 pointing to this note.  The optional argument `MARK` can be used to change the
 default symbol of this note to `MARK`.
 
+The style of the title, authors and author notes are defined in the commands
+
+* `\tudstyleheadtitle`,
+* `\tudstyleheadauthors` and
+* `\tudstyleheadauthornotes`.
+
+You can redefine the styles in the preamble using `\renewcommand`.  For example:
+
+    \renewcommand{\tudstyleheadtitle}{%
+        \normalfont\rmfamily\color{white}\large\scshape}
+
 Footer
 ------
 
@@ -132,6 +143,22 @@ Document body
 
 The class inherits the `article` class, hence supports all the commands and
 environments defined there.
+
+The default font is Latin Modern, a font based on Computer Modern Roman.  The
+default font family is sans serif.  If you want to change the default family to
+e.g. serif, add the following line to the preamble:
+
+    \renewcommand{\familydefault}{\rmdefault}
+
+The style of sections, the title, authors and author notes are defined in the
+command `\tudstylesection`.  You can redefine the styles in the preamble using
+`\renewcommand`.  For example:
+
+    \renewcommand{\tudstylesection}{%
+        \normalfont\rmfamily\Large\scshape\color{tudcyan}}
+
+Tikz body
+---------
 
 Alternatively, you can design the poster body completely using tikz.  Just
 create a `tikzpicture` environment and start drawing.  This class provides a
