@@ -23,17 +23,18 @@ Installation
 
 You can obtain all necessary files by running
 
-    git clone --recursive https://github.com/joostvanzwieten/tudelft-poster.git
-
-If you have an old version of git (before 1.6.5), run
-
     git clone https://github.com/joostvanzwieten/tudelft-poster.git
     cd tudelft-poster
     git submodule init
     git submodule update
 
 Use the `install` python script to install the document class and additional
-files in a texmf tree.
+files in a texmf tree.  For example, run
+
+    ./install --home
+
+from within the tudelft-poster directory to install in your TEXMFHOME
+directory.  For other installation options, run `install` without arguments.
 
 Usage
 =====
