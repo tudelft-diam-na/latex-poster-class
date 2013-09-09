@@ -185,7 +185,7 @@ Example
     \addauthor[mail One,A]{Author One}
     \addauthor[A,B]{Author Two}
 
-    \addauthornote{mail One}[@]{author.one@tudelft.nl}
+    \addauthornote{mail One}[@]{\ttfamily author.one@tudelft.nl}
     \addauthornote{A}{Delft Institute of Applied Mathematics}
     \addauthornote{B}{Some other institute}
 
