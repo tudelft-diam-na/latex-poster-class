@@ -1,6 +1,4 @@
-*.aux
-*.log
-*.pdf
-*.qri
-*.qro
 *.pyc
+__pycache__
+example.*
+!example.tex

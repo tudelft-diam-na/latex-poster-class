@@ -1,0 +1,6 @@
+#! /bin/sh
+
+lualatex example
+lualatex example
+mv example.pdf preview.pdf
+convert -background white preview.pdf -alpha off -thumbnail 512x512 -quality 85 preview.jpg
