@@ -26,9 +26,6 @@ Installation
 You can obtain all necessary files by running
 
     git clone https://github.com/joostvanzwieten/tudelft-poster.git
-    cd tudelft-poster
-    git submodule init
-    git submodule update
 
 Use the `install` python script to install the document class and additional
 files in a texmf tree.  For example, run

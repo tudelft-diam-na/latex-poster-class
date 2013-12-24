@@ -1,1 +1,1 @@
-luaqrcode/qrencode.lua
+luaqrcode-subtree/qrencode.lua
