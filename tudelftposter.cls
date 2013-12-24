@@ -55,6 +55,11 @@
 % color definitions [[[
 
 \definecolor{tudcyan}{HTML}{00a6d6}
+\colorlet{tud@backgroundcolor}{white}
+\let\tud@orig@pagecolor\pagecolor
+\def\pagecolor#1{%
+  \colorlet{tud@backgroundcolor}{#1}%
+  \tud@orig@pagecolor{#1}}
 
 % ]]]
 % font size definitions (TODO: should be placed in sizeXXposter.clo files ...) [[[
@@ -255,7 +260,7 @@
         \iftud@experimentalheadergradient
           \fill[tudcyan,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
         \else
-          \draw[draw=none,top color=tudcyan,bottom color=white] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
+          \draw[draw=none,top color=tudcyan,bottom color=tud@backgroundcolor] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
         \fi
        \end{tikzpicture}
       };
