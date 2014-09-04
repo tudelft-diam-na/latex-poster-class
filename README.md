@@ -4,6 +4,7 @@ tudelft-poster
 A latex class for TU Delft posters.
 
 [![example](preview.jpg?raw=true)](preview.pdf?raw=true)
+[![example](preview_tikz.jpg?raw=true)](preview_tikz.pdf?raw=true)
 
 Requirements
 ============
