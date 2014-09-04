@@ -4,3 +4,8 @@ lualatex example
 lualatex example
 mv example.pdf preview.pdf
 convert -background white preview.pdf -alpha off -thumbnail 512x512 -quality 85 preview.jpg
+
+lualatex example_tikz
+lualatex example_tikz
+mv example_tikz.pdf preview_tikz.pdf
+convert -background white preview_tikz.pdf -alpha off -thumbnail 512x512 -quality 85 preview_tikz.jpg
