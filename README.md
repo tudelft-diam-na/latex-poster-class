@@ -22,22 +22,29 @@ This document class requires the following latex packages:
 * multicol and
 * caption.
 
-In Debian Wheezy, installing `texlive-latex-extra` is sufficient.
+In Debian Wheezy and Jessie, installing `texlive-latex-extra` is sufficient.
 
 Installation
 ============
 
-You can obtain all necessary files by running
+Either clone [this repository][github-repository] using git or download and
+unzip [this zip file][github-zip].  No installation is required as long as you
+put your `.tex` file in the same directory as `tudelftposter.cls`.
 
-    git clone https://github.com/joostvanzwieten/tudelft-poster.git
+[github-repository]: https://github.com/joostvanzwieten/tudelft-poster.git
+[github-zip]: https://github.com/joostvanzwieten/tudelft-poster/archive/master.zip
 
-Use the `install` python script to install the document class and additional
-files in a texmf tree.  For example, run
+Linux
+-----
+
+If you do want to install the document class in a texmf tree, you can use the
+`install` python script.  For example, run
 
     ./install --home
 
-from within the tudelft-poster directory to install in your TEXMFHOME
-directory.  For other installation options, run `install` without arguments.
+from within the tudelft-poster directory to install the document class in your
+`TEXMFHOME` directory.  For other installation options, run `install` without
+arguments.
 
 Usage
 =====
