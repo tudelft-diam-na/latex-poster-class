@@ -3,8 +3,12 @@ tudelft-poster
 
 A latex class for TU Delft posters.
 
-This class requires a latex compiler generating a pdf, e.g. `pdflatex` or
-`lualatex`.  Plain `latex` is not supported.
+*   This class requires a latex compiler generating a pdf, e.g. `pdflatex` or
+    `lualatex`.  Plain `latex` is not supported.
+
+*   As this document class uses absolute positioning with tikz, it is sometimes
+    necessary to compile your document twice to get the positions of the poster
+    header and footer right.
 
 [![example](preview.jpg?raw=true)](preview.pdf?raw=true)
 [![example_tikz](preview_tikz.jpg?raw=true)](preview_tikz.pdf?raw=true)
