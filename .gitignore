@@ -2,3 +2,5 @@
 __pycache__
 example.*
 !example.tex
+example_tikz.*
+!example_tikz.tex
