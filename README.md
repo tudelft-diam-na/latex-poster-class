@@ -7,7 +7,9 @@ This class requires a latex compiler generating a pdf, e.g. `pdflatex` or
 `lualatex`.  Plain `latex` is not supported.
 
 [![example](preview.jpg?raw=true)](preview.pdf?raw=true)
-[![example](preview_tikz.jpg?raw=true)](preview_tikz.pdf?raw=true)
+[![example_tikz](preview_tikz.jpg?raw=true)](preview_tikz.pdf?raw=true)
+
+For the source of these examples, see `example.tex` and `example_tikz.tex`.
 
 Requirements
 ============
