@@ -66,6 +66,7 @@
 
 \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
+\RequirePackage{textcomp}
 
 % Fix small math symbols.
 % source: http://tex.stackexchange.com/questions/74623/big-integral-in-lmodern
