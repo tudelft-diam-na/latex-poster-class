@@ -166,14 +166,14 @@
 
 \def\tud@authornote@getsymbol#1{%
   \ifcsdef{tud@authornote@symbol@#1}{%
-    \csuse{tud@authornote@symbol@#1}}{%
+    \textsuperscript{\csuse{tud@authornote@symbol@#1}}}{%
     \ClassWarning{tudelftposter}{unknown author note '#1'}%
     \textsuperscript{{\bfseries??}}}}
 
 \def\addauthornote#1{\@ifnextchar[{\tud@authornote@addi{#1}}{\tud@authornote@addii{#1}}}%]
 
 \def\tud@authornote@addi#1[#2]#3{%
-  \csgdef{tud@authornote@symbol@#1}{\textsuperscript{{#2}}}%
+  \csgdef{tud@authornote@symbol@#1}{#2}%
   \tud@authornote@addiii{#1}{#3}}%
 
 \newcounter{tud@authornote@symbolcounter}
@@ -181,8 +181,11 @@
 
 \def\tud@authornote@addii#1#2{%
   \stepcounter{tud@authornote@symbolcounter}%
-  \csxdef{tud@authornote@symbol@#1}{%
-    \noexpand\textsuperscript{\fnsymbol{tud@authornote@symbolcounter}}}
+  \newcounter{tud@authornote@symbol@#1@counter}%
+  \setcounter{tud@authornote@symbol@#1@counter}{%
+    \value{tud@authornote@symbolcounter}}%
+  \csgdef{tud@authornote@symbol@#1}{%
+    \fnsymbol{tud@authornote@symbol@#1@counter}}%
   \tud@authornote@addiii{#1}{#2}}%
 
 \tud@string@new[,\quad]{authornotes}
