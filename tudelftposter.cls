@@ -22,17 +22,17 @@
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
 \RequirePackage{etoolbox}
 
-\newif\iftud@experimentalheadergradient
-\tud@experimentalheadergradientfalse
-
 % options [[[
 
-\DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
-\DeclareOption{final}{\PassOptionsToClass{final}{article}}
-\DeclareOption{experimentalheadergradient}{\tud@experimentalheadergradienttrue}
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=tudelftposter,prefix=tud@opt@}
+
+\DeclareVoidOption{draft}{\PassOptionsToClass{draft}{article}}
+\DeclareVoidOption{final}{\PassOptionsToClass{final}{article}}
+\DeclareBoolOption{experimentalheadergradient}
 
 \ExecuteOptions{final}
-\ProcessOptions
+\ProcessKeyvalOptions*
 
 % ]]]
 
@@ -261,7 +261,7 @@
   \begin{tikzpicture}[remember picture,overlay]
     \node at (current page.north west)
       {\begin{tikzpicture}[remember picture,overlay]
-        \iftud@experimentalheadergradient
+        \iftud@opt@experimentalheadergradient
           \fill[tudcyan,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
         \else
           \draw[draw=none,top color=tudcyan,bottom color=tud@backgroundcolor] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
