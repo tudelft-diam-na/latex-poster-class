@@ -32,6 +32,7 @@
 \DeclareStringOption[]{ncolumns}
 \DeclareStringOption[]{footerheight}
 \DeclareStringOption[]{fontsize}
+\DeclareStringOption[a0paper]{paper}
 \DeclareBoolOption{landscape}
 \DeclareBoolOption{experimentalheadergradient}
 
@@ -50,7 +51,7 @@
 
 \LoadClass[onecolumn]{article}
 
-\RequirePackage[paper=a0paper,vmargin={0pt,0pt}]{geometry}
+\RequirePackage[paper=\tud@opt@paper,vmargin={0pt,0pt}]{geometry}
 \newlength\tud@maxpapersize
 \deflength\tud@maxpapersize{\ifdimgreater{\paperwidth}{\paperheight}{\paperwidth}{\paperheight}}
 \newlength\tud@refmm
@@ -87,9 +88,19 @@
 % ]]]
 % font size definitions
 
+\RequirePackage{ifxetex}
+\RequirePackage{ifluatex}
+\ifxetex
+  \RequirePackage{fontspec}
+\else
+  \ifluatex
+    \RequirePackage{fontspec}
+  \else
+    \RequirePackage{textcomp}
+    \RequirePackage[T1]{fontenc}
+  \fi
+\fi
 \RequirePackage{lmodern}
-\RequirePackage[T1]{fontenc}
-\RequirePackage{textcomp}
 
 % Fix small math symbols.
 % source: http://tex.stackexchange.com/questions/74623/big-integral-in-lmodern
@@ -156,6 +167,19 @@
 \normalbaselineskip=12\tud@refpt
 \normallineskip=1\tud@refpt
 \normallineskiplimit=0\tud@refpt
+\normalbaselines
+
+\setlength\topsep{0pt}
+\setlength\partopsep{0pt}
+\setlength\multicolsep{0pt}
+
+\def\@listi{%
+  \leftmargin\leftmargini%
+  \parsep 4\tud@refpt \@plus2\tud@refpt \@minus\tud@refpt%
+  \topsep 8\tud@refpt \@plus2\tud@refpt \@minus4\tud@refpt%
+  \itemsep4\tud@refpt \@plus2\tud@refpt \@minus\tud@refpt}
+
+% TODO: Replace more definitions from size10.clo.
 
 % ]]]
 

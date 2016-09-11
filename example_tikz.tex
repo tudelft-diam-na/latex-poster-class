@@ -18,7 +18,7 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 % THE SOFTWARE.
 %
-\documentclass{tudelftposter}
+\documentclass[paper=a0paper]{tudelftposter}
 
 % Reference sizes based on A0 page size.
 \newlength\refmm
@@ -84,7 +84,7 @@
     \addtolength{\textboxwidth}{\textboxncolumns\textboxcolumnsep}%
     \addtolength{\textboxwidth}{-\textboxcolumnsep}%
     \def\atbeginofminipage{%
-      \setlength{\columnsep}{43\refpt}%
+      \setlength{\columnsep}{\textboxcolumnsep}%
       \begin{multicols}{\textboxncolumns}%
         \par\noindent\ignorespacesandpars}%
     \def\atendofminipage{%

@@ -74,6 +74,9 @@ The class supports the following options:
 *   `fontsize=DIM`, where `DIM` is a dimension, e.g. `43pt`: Set the font size
     of the main text (`\normalsize`).  All other sizes scale accordingly.
 
+*   `paper=PAPERDEF`, where `PAPERDEF` is a paper size definition, e.g.
+    `a0paper`: Set the paper size.
+
 You can pass options to the class in the usual way, e.g.
 
     \documentclass[landscape,ncolumns=4]{tudelftposter}
