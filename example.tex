@@ -20,6 +20,14 @@
 %
 \documentclass{tudelftposter}
 
+% Reference sizes based on A0 page size.
+\newlength\refmm
+\deflength\refmm{\paperheight/1189}
+\newlength\refcm
+\deflength\refcm{10\refmm}
+\newlength\refpt
+\deflength\refpt{0.2955927706131197\paperheight/1000}
+
 % optional, makes QR code clickable
 \usepackage[hidelinks,implicit=false,bookmarks=false]{hyperref}
 
@@ -56,7 +64,7 @@ dignissim rutrum.  See Figure \ref{fig:test}.
 
 \begin{figure}
   \centering
-  \framebox{\rule{0pt}{5cm}\rule{5cm}{0pt}}
+  \framebox{\rule{0pt}{5\refcm}\rule{5\refcm}{0pt}}
   \caption{test}
   \label{fig:test}
 \end{figure}

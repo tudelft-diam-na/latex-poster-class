@@ -20,6 +20,14 @@
 %
 \documentclass{tudelftposter}
 
+% Reference sizes based on A0 page size.
+\newlength\refmm
+\deflength\refmm{\paperheight/1189}
+\newlength\refcm
+\deflength\refcm{10\refmm}
+\newlength\refpt
+\deflength\refpt{0.2955927706131197\paperheight/1000}
+
 % optional, makes QR code clickable
 \usepackage[hidelinks,implicit=false,bookmarks=false]{hyperref}
 
@@ -40,10 +48,10 @@
 \addfootqrcode(l:left column.left)[latex-poster-class repository]{https://github.com/tudelft-diam-na/latex-poster-class}
 
 \newlength{\textboxwidth}
-\newlength{\textboxcolumnsep}\setlength{\textboxcolumnsep}{1em}
+\newlength{\textboxcolumnsep}\setlength{\textboxcolumnsep}{43\refpt}
 
-\setlength\arrayrulewidth{2pt}
-\def\centeredhrulefill{\leaders\hbox{\rule[.5ex]{5pt}{\arrayrulewidth}}\hfill}
+\setlength\arrayrulewidth{2\refpt}
+\def\centeredhrulefill{\leaders\hbox{\rule[.5ex]{5\refpt}{\arrayrulewidth}}\hfill}
 
 % source: http://tex.stackexchange.com/questions/23100/looking-for-an-ignorespacesandpars
 \makeatletter
@@ -76,7 +84,7 @@
     \addtolength{\textboxwidth}{\textboxncolumns\textboxcolumnsep}%
     \addtolength{\textboxwidth}{-\textboxcolumnsep}%
     \def\atbeginofminipage{%
-      \setlength{\columnsep}{1em}%
+      \setlength{\columnsep}{43\refpt}%
       \begin{multicols}{\textboxncolumns}%
         \par\noindent\ignorespacesandpars}%
     \def\atendofminipage{%
@@ -86,13 +94,13 @@
   \node[inner sep=0pt,outer sep=0cm] (#1) at (#2) [#3] \bgroup%
     \begin{minipage}{\textboxwidth}%
       \setlength{\parskip}{0pt}%
-      \setlength{\parindent}{1em}%
+      \setlength{\parindent}{43\refpt}%
       \par\noindent%
       {% title
         \color{tudcyan}\rm\scshape%
-        \centeredhrulefill\hspace{1em}%
+        \centeredhrulefill\hspace{43\refpt}%
         \textboxtitle%
-        \hspace{1em}\centeredhrulefill}%
+        \hspace{43\refpt}\centeredhrulefill}%
       \atbeginofminipage}%
 \def\endtextbox{%
       \atendofminipage%
@@ -104,7 +112,7 @@
 \begin{tikzpicture}[remember picture,overlay,line width=\arrayrulewidth]
 
 \begin{textbox}(introduction)
-at (body.north west) [below right] <2,24cm>
+at (body.north west) [below right] <2,24\refcm>
 title {Introduction}
 
   Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit,
@@ -126,7 +134,7 @@ title {Introduction}
 \end{textbox}
 
 \begin{textbox}(spam)
-at (body.north east) [below left] <1,24cm>
+at (body.north east) [below left] <1,24\refcm>
 title {Spam}
 
   \begin{itemize}
@@ -144,7 +152,7 @@ title {Spam}
 \end{textbox}
 
 \begin{textbox}(eggs)
-at ([shift={(0pt,-30cm)}]body.north west) [below right] <1,40cm>
+at ([shift={(0pt,-30\refcm)}]body.north west) [below right] <1,40\refcm>
 title {Eggs}
 
   Quisque ullamcorper placerat ipsum. Cras nibh.  Morbi vel justo vitae lacus
@@ -159,7 +167,7 @@ title {Eggs}
 \end{textbox}
 
 \begin{textbox}(foobar)
-at (body.south west) [above right] <1,35cm>
+at (body.south west) [above right] <1,35\refcm>
 title {Foo \& Bar}%
 
   Nam dui ligula, fringilla a, euismod sodales, sollicitudin vel, wisi. Morbi
@@ -180,7 +188,7 @@ title {Foo \& Bar}%
 \end{textbox}
 
 \begin{textbox}(conclusion)
-at (body.south east) [above left] <1,35cm>
+at (body.south east) [above left] <1,35\refcm>
 title {Conclusion}%
 
   Suspendisse vel felis. Ut lorem lorem, interdum eu, tincidunt sit amet, laoreet
@@ -196,8 +204,8 @@ title {Conclusion}%
 \end{textbox}
 
 \node (fig1)
-at ([shift={(0pt,-37cm)}]body.north east) [below left] {%
-  \begin{tikzpicture}[x=5cm,y=5cm,line width=\arrayrulewidth]
+at ([shift={(0pt,-37\refcm)}]body.north east) [below left] {%
+  \begin{tikzpicture}[x=5\refcm,y=5\refcm,line width=\arrayrulewidth]
     \draw (0,0) -- (4,0) node[anchor=north] {$x$};
     \draw (0,0) -- (0,3) node[anchor=east] {$f(x)$};
     \draw
@@ -209,7 +217,7 @@ at ([shift={(0pt,-37cm)}]body.north east) [below left] {%
       coordinates {(0,0) (1,2) (2,1) (3,3)};
   \end{tikzpicture}};
 \node at ([shift={(-2ex,0)}]fig1.south west) [above left] {%
-  \begin{minipage}{15cm}
+  \begin{minipage}{15\refcm}
     \itshape\raggedleft%
     {\rm\scshape Figure 1}\\
     \small%

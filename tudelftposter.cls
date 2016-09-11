@@ -48,13 +48,21 @@
 % ]]]
 
 \LoadClass[onecolumn]{article}
-\setlength{\columnsep}{3cm}
-\newlength{\tud@hmargin}
-\setlength{\tud@hmargin}{\columnsep}
+
+\RequirePackage[paper=a0paper,vmargin={0pt,0pt}]{geometry}
+\newlength\tud@maxpapersize
+\deflength\tud@maxpapersize{\ifdimgreater{\paperwidth}{\paperheight}{\paperwidth}{\paperheight}}
+\newlength\tud@refmm
+\deflength\tud@refmm{\tud@maxpapersize/1189}
+\newlength\tud@refpt
+\deflength\tud@refpt{0.2955927706131197\tud@maxpapersize/1000}
+\deflength\columnsep{30\tud@refmm}
+\newlength\tud@hmargin
+\setlength\tud@hmargin{\columnsep}
+\geometry{hmargin=\tud@hmargin,footskip=\columnsep}
 
 % packages [[[
 
-\RequirePackage[paper=a0paper,hmargin=\tud@hmargin,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -76,7 +84,7 @@
   \tud@orig@pagecolor{#1}}
 
 % ]]]
-% font size definitions (TODO: should be placed in sizeXXposter.clo files ...) [[[
+% font size definitions
 
 \RequirePackage{lmodern}
 \RequirePackage[T1]{fontenc}
@@ -90,48 +98,59 @@
 
 \rmfamily
 
-%% size 24.88pt
-%\renewcommand{\tiny}{\fontsize{12}{14}\selectfont}
-%\renewcommand{\scriptsize}{\fontsize{14.4}{18}\selectfont}
-%\renewcommand{\footnotesize}{\fontsize{17.28}{22}\selectfont}
-%\renewcommand{\small}{\fontsize{20.74}{25}\selectfont}
-%\renewcommand{\normalsize}{\fontsize{24.88}{30}\selectfont}
-%\renewcommand{\large}{\fontsize{29.86}{37}\selectfont}
-%\renewcommand{\Large}{\fontsize{35.83}{45}\selectfont}
-%\renewcommand{\LARGE}{\fontsize{43}{54}\selectfont}
-%\renewcommand{\huge}{\fontsize{51.6}{64}\selectfont}
-%\renewcommand{\Huge}{\fontsize{61.92}{77}\selectfont}
-%\newcommand{\veryHuge}{\fontsize{74.3}{93}\selectfont}
-%\newcommand{\VeryHuge}{\fontsize{89.16}{112}\selectfont}
-%\newcommand{\VERYHuge}{\fontsize{107}{134}\selectfont}
+% normalsize 43pt at a0
+\newlength\tud@font@basesize
+\deflength\tud@font@basesize{43\tud@refpt}
 
-% size 43pt
-\renewcommand{\tiny}{\fontsize{20.74}{25}\selectfont}
-\renewcommand{\scriptsize}{\fontsize{24.88}{30}\selectfont}
-\renewcommand{\footnotesize}{\fontsize{29.86}{37}\selectfont}
-\renewcommand{\small}{\fontsize{35.83}{45}\selectfont}
-\renewcommand{\normalsize}{\fontsize{43}{54}\selectfont}
-\renewcommand{\large}{\fontsize{51.6}{64}\selectfont}
-\renewcommand{\Large}{\fontsize{61.92}{77}\selectfont}
-\renewcommand{\LARGE}{\fontsize{74.3}{93}\selectfont}
-\renewcommand{\huge}{\fontsize{89.16}{112}\selectfont}
-\renewcommand{\Huge}{\fontsize{107}{134}\selectfont}
+% The sizes follow a geometric series with ratio 1.2.  Baselines are a factor
+% 1.25 larger than the font sizes.
+\renewcommand{\tiny}{%
+  \fontsize{0.4822530864197532\tud@font@basesize}{0.6028163580246915\tud@font@basesize}\selectfont}
+\renewcommand{\scriptsize}{%
+  \fontsize{0.5787037037037037\tud@font@basesize}{0.7233796296296297\tud@font@basesize}\selectfont}
+\renewcommand{\footnotesize}{%
+  \fontsize{0.6944444444444444\tud@font@basesize}{0.8680555555555557\tud@font@basesize}\selectfont}
+\renewcommand{\small}{%
+  \fontsize{0.8333333333333333\tud@font@basesize}{1.0416666666666667\tud@font@basesize}\selectfont}
+\renewcommand{\normalsize}{%
+  \fontsize{1.0\tud@font@basesize}{1.25\tud@font@basesize}\selectfont}
+\renewcommand{\large}{%
+  \fontsize{1.2\tud@font@basesize}{1.5\tud@font@basesize}\selectfont}
+\renewcommand{\Large}{%
+  \fontsize{1.44\tud@font@basesize}{1.8\tud@font@basesize}\selectfont}
+\renewcommand{\LARGE}{%
+  \fontsize{1.728\tud@font@basesize}{2.16\tud@font@basesize}\selectfont}
+\renewcommand{\huge}{%
+  \fontsize{2.0736\tud@font@basesize}{2.592\tud@font@basesize}\selectfont}
+\renewcommand{\Huge}{%
+  \fontsize{2.48832\tud@font@basesize}{3.1104\tud@font@basesize}\selectfont}
 
 \normalsize
-\setlength\parindent{2em}
-\setlength\parskip{0pt plus .5ex}
-%\setlength\parindent{0pt}
-%\setlength\parskip{2ex}
-\setlength\floatsep{45pt plus 5pt minus 5pt}
-\setlength\textfloatsep{86pt plus 9pt minus 18pt}
-\setlength\intextsep{45pt plus 5pt minus 15pt}
-\setlength\dblfloatsep{45pt plus 5pt minus 5pt}
-\setlength\dbltextfloatsep{86pt plus 9pt minus 18pt}
+\setlength\parindent{86\tud@refpt}
+\setlength\parskip{0pt plus 30\tud@refpt}
+\setlength\floatsep{45\tud@refpt plus 5\tud@refpt minus 5\tud@refpt}
+\setlength\textfloatsep{86\tud@refpt plus 9\tud@refpt minus 18\tud@refpt}
+\setlength\intextsep{45\tud@refpt plus 5\tud@refpt minus 15\tud@refpt}
+\setlength\dblfloatsep{45\tud@refpt plus 5\tud@refpt minus 5\tud@refpt}
+\setlength\dbltextfloatsep{86\tud@refpt plus 9\tud@refpt minus 18\tud@refpt}
 
-\setlength\abovedisplayskip{32pt plus 3pt minus 3pt}
-\setlength\abovedisplayshortskip{14pt plus 3pt minus 3pt}
-\setlength\belowdisplayskip{\abovedisplayskip}
-\setlength\belowdisplayshortskip{\abovedisplayskip}
+\hfuzz=0.1\tud@refpt
+\vfuzz=0.1\tud@refpt
+\overfullrule=5\tud@refpt
+\maxdepth=4\tud@refpt
+\delimitershortfall=5\tud@refpt
+\nulldelimiterspace=1.2\tud@refpt
+\scriptspace=0.5\tud@refpt
+\abovedisplayskip=12\tud@refpt plus 3\tud@refpt minus 9\tud@refpt
+\abovedisplayshortskip=0\tud@refpt plus 3\tud@refpt
+\belowdisplayskip=12\tud@refpt plus 3\tud@refpt minus 9\tud@refpt
+\belowdisplayshortskip=7\tud@refpt plus 3\tud@refpt minus 4\tud@refpt
+\topskip=10\tud@refpt
+\splittopskip=10\tud@refpt
+\parfillskip=0pt plus 1fil
+\normalbaselineskip=12\tud@refpt
+\normallineskip=1\tud@refpt
+\normallineskiplimit=0\tud@refpt
 
 % ]]]
 
@@ -169,8 +188,8 @@
 \setcounter{secnumdepth}{0}
 \renewcommand\section{%
   \@startsection{section}{1}{0pt}%
-   {-2ex plus -1ex minus -.2ex}%
-   {1ex plus 1ex}%
+   {-37\tud@refpt plus -18.5\tud@refpt minus -3.7\tud@refpt}%
+   {18.5\tud@refpt plus 18.5\tud@refpt}%
    {\tudstylesection}%
 }
 
@@ -231,7 +250,7 @@
 
 \newcommand{\tudstyleheadtitle}{\normalfont\sffamily\color{white}\huge\bfseries}
 \newcommand{\tudstyleheadauthors}{\normalfont\sffamily\Large\frenchspacing}
-\newcommand{\tudstyleheadauthornotes}{\normalfont\sffamily\fontsize{32}{45}\selectfont}
+\newcommand{\tudstyleheadauthornotes}{\normalfont\sffamily\footnotesize}
 
 \newlength\safetymargin
 \setlength\safetymargin{1cm}
@@ -240,13 +259,13 @@
   \newpage%
   \null%
   \setbox\@tempboxa\vbox{%
-    \vskip 2em%
+    \vskip 86\tud@refpt%
     \begin{center}%
     \let \footnote \thanks
       {\tudstyleheadtitle \@title \par}%
-      \vskip 1.5em%
+      \vskip 64.5\tud@refpt%
       {\Large
-        \lineskip .5em%
+        \lineskip 21.5\tud@refpt%
         \tud@string@ifempty{authors}{{%
           \tudstyleheadauthors%
           % old style authors
@@ -257,7 +276,7 @@
           % new style authors
           {\tudstyleheadauthors%
           \tud@string@use{authors}}%
-          \par\vskip .5em%
+          \par\vskip 21.5\tud@refpt%
           {\tudstyleheadauthornotes%
           \tud@string@use{authornotes}}%
         }%
@@ -316,10 +335,10 @@
 \fi
 \newlength\footerheightwithmargin
 \deflength\footerheightwithmargin{\footerheight+\columnsep}
-\geometry{vmargin={0cm,\footerheightwithmargin}}
+\geometry{vmargin={0pt,\footerheightwithmargin}}
 
 \newlength\footerblacklinewidth
-\deflength\footerblacklinewidth{1pt}
+\deflength\footerblacklinewidth{1\tud@refpt}
 \newlength\footerwhiteliney
 \deflength\footerwhiteliney{.115\footerheight}
 \newlength\footerwhitelinewidth
@@ -378,7 +397,7 @@
 
 \def\tud@footer@addtotextbar#1#2#3{%
   \tud@string@append{footer}{%
-    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0cm] at (\tud@xpos@resolve{#2},\footerimagetexty) {%
+    \node[inner sep=0pt,\tud@footer@getposition{#1},baseline=0pt] at (\tud@xpos@resolve{#2},\footerimagetexty) {%
       \raisebox{0pt}[\height][0pt]{{\tudstylefooter #3}}};}}
 
 \pagestyle{plain}
@@ -481,14 +500,14 @@
 % ]]]
 % list environments [[[
 
-\setlength\leftmargini  {2em}
+\setlength\leftmargini  {86\tud@refpt}
 \leftmargin  \leftmargini
-\setlength\leftmarginii  {2.2em}
-\setlength\leftmarginiii {1.87em}
-\setlength\leftmarginiv  {1.7em}
-\setlength\leftmarginv  {.5em}
-\setlength\leftmarginvi {.5em}
-\setlength  \labelsep  {.5em}
+\setlength\leftmarginii  {94.6\tud@refpt}
+\setlength\leftmarginiii {80.41\tud@refpt}
+\setlength\leftmarginiv  {73.1\tud@refpt}
+\setlength\leftmarginv  {21.5\tud@refpt}
+\setlength\leftmarginvi {21.5\tud@refpt}
+\setlength  \labelsep  {21.5\tud@refpt}
 \setlength  \labelwidth{\leftmargini}
 \addtolength\labelwidth{-\labelsep}
 \@beginparpenalty -\@lowpenalty
