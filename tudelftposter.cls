@@ -29,10 +29,15 @@
 
 \DeclareVoidOption{draft}{\PassOptionsToClass{draft}{article}}
 \DeclareVoidOption{final}{\PassOptionsToClass{final}{article}}
+\DeclareBoolOption{landscape}
 \DeclareBoolOption{experimentalheadergradient}
 
 \ExecuteOptions{final}
 \ProcessKeyvalOptions*
+
+\iftud@opt@landscape%
+  \PassOptionsToPackage{landscape}{geometry}%
+\fi
 
 % ]]]
 
@@ -320,7 +325,8 @@
 \newlength\footerimagey
 \deflength\footerimagey{\footerblueyiii+\footerimagemargin}
 
-\newcommand{\tudstylefooter}{\normalfont\sffamily\color{white}\small\bfseries}
+\newcommand{\tudfooterfontsize}{\fontsize{0.1\footerheight}{0.125\footerheight}\selectfont}
+\newcommand{\tudstylefooter}{\normalfont\sffamily\color{white}\tudfooterfontsize\bfseries}
 \newlength\footertextheight
 \settoheight\footertextheight{\tudstylefooter X}
 \newlength\footerimagetexty

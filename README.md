@@ -59,6 +59,16 @@ Begin your latex document with the line
 
     \documentclass{tudelftposter}
 
+The class supports the following options:
+
+*   `landscape`: Use landscape page orientation.  You can also pass `true` or
+    `false` to this option, e.g. `landscape=true`.  The default page
+    orientation is portrait.
+
+You can pass options to the class in the usual way, e.g.
+
+    \documentclass[landscape]{tudelftposter}
+
 Header
 ------
 
