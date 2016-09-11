@@ -31,6 +31,7 @@
 \DeclareVoidOption{final}{\PassOptionsToClass{final}{article}}
 \DeclareStringOption[]{ncolumns}
 \DeclareStringOption[]{footerheight}
+\DeclareStringOption[]{fontsize}
 \DeclareBoolOption{landscape}
 \DeclareBoolOption{experimentalheadergradient}
 
@@ -100,7 +101,11 @@
 
 % normalsize 43pt at a0
 \newlength\tud@font@basesize
-\deflength\tud@font@basesize{43\tud@refpt}
+\ifx\tud@opt@fontsize\@empty%
+  \deflength\tud@font@basesize{43\tud@refpt}%
+\else
+  \deflength\tud@font@basesize{\tud@opt@fontsize}%
+\fi
 
 % The sizes follow a geometric series with ratio 1.2.  Baselines are a factor
 % 1.25 larger than the font sizes.

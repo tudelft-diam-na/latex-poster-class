@@ -71,6 +71,9 @@ The class supports the following options:
 *   `footerheight=DIM`, where `DIM` is a dimension, e.g. `10cm`: Set the height
     of the footer.
 
+*   `fontsize=DIM`, where `DIM` is a dimension, e.g. `43pt`: Set the font size
+    of the main text (`\normalsize`).  All other sizes scale accordingly.
+
 You can pass options to the class in the usual way, e.g.
 
     \documentclass[landscape,ncolumns=4]{tudelftposter}
