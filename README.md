@@ -65,9 +65,12 @@ The class supports the following options:
     `false` to this option, e.g. `landscape=true`.  The default page
     orientation is portrait.
 
+*   `ncolumns=INT`, where `INT` is a strict positive integer: Set the number
+    of columns.  Defaults to `2` for potrait posters and `3` for landscape.
+
 You can pass options to the class in the usual way, e.g.
 
-    \documentclass[landscape]{tudelftposter}
+    \documentclass[landscape,ncolumns=4]{tudelftposter}
 
 Header
 ------
@@ -129,15 +132,22 @@ the footer:
 The argument `POSITION` specifies the position of the object.  There are several
 predefined positions:
 
-* `page.center`,
-* `page.left`,
-* `page.right`,
-* `left column.center`,
-* `left column.left`,
-* `left column.right`,
-* `right column.center`,
-* `right column.left` and
-* `right column.right`.
+*   `page.center`,
+*   `page.left`,
+*   `page.right`,
+*   `body.center`,
+*   `body.left`,
+*   `body.right`,
+*   `column<I>.center` with `<I>` a column number starting at zero, e.g.
+    `column0.center`,
+*   `column<I>.left`,
+*   `column<I>.right`,
+*   `left column.center` (alias of `column0.center`, equal to `body.left`),
+*   `left column.left` (alias of `column0.left`),
+*   `left column.right` (alias of `column0.right`),
+*   `right column.center` (alias of `column<ncolumns-1>.center`),
+*   `right column.left` (alias of `column<ncolumns-1>.left`) and
+*   `right column.right` (alias of `column<ncolumns-1>.right`, equal to `body.right`).
 
 You can also specify a length.  The argument `ALIGNMENT` controls the alignment
 with respect to `POSITION` and must be one of
