@@ -68,6 +68,9 @@ The class supports the following options:
 *   `ncolumns=INT`, where `INT` is a strict positive integer: Set the number
     of columns.  Defaults to `2` for potrait posters and `3` for landscape.
 
+*   `footerheight=DIM`, where `DIM` is a dimension, e.g. `10cm`: Set the height
+    of the footer.
+
 You can pass options to the class in the usual way, e.g.
 
     \documentclass[landscape,ncolumns=4]{tudelftposter}

@@ -30,6 +30,7 @@
 \DeclareVoidOption{draft}{\PassOptionsToClass{draft}{article}}
 \DeclareVoidOption{final}{\PassOptionsToClass{final}{article}}
 \DeclareStringOption[]{ncolumns}
+\DeclareStringOption[]{footerheight}
 \DeclareBoolOption{landscape}
 \DeclareBoolOption{experimentalheadergradient}
 
@@ -307,7 +308,11 @@
 % footer [[[
 
 \newlength\footerheight
-\deflength\footerheight{.1\paperheight}
+\ifx\tud@opt@footerheight\@empty%
+  \deflength\footerheight{.1\paperheight}%
+\else%
+  \deflength\footerheight{\tud@opt@footerheight}%
+\fi
 \newlength\footerheightwithmargin
 \deflength\footerheightwithmargin{\footerheight+\columnsep}
 \geometry{vmargin={0cm,\footerheightwithmargin}}
