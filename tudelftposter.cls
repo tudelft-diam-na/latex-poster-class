@@ -22,26 +22,39 @@
 \NeedsTeXFormat{LaTeX2e}[1995/06/01]
 \RequirePackage{etoolbox}
 
-\newif\iftud@experimentalheadergradient
-\tud@experimentalheadergradientfalse
-
 % options [[[
 
-\DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
-\DeclareOption{final}{\PassOptionsToClass{final}{article}}
-\DeclareOption{experimentalheadergradient}{\tud@experimentalheadergradienttrue}
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=tudelftposter,prefix=tud@opt@}
+
+\DeclareVoidOption{draft}{\PassOptionsToClass{draft}{article}}
+\DeclareVoidOption{final}{\PassOptionsToClass{final}{article}}
+\DeclareStringOption[]{ncolumns}
+\DeclareStringOption[]{footerheight}
+\DeclareBoolOption{landscape}
+\DeclareBoolOption{experimentalheadergradient}
 
 \ExecuteOptions{final}
-\ProcessOptions
+\ProcessKeyvalOptions*
+
+\ifx\tud@opt@ncolumns\@empty%
+  \def\tud@opt@ncolumns{\iftud@opt@landscape 3\else 2\fi}%
+\fi
+
+\iftud@opt@landscape%
+  \PassOptionsToPackage{landscape}{geometry}%
+\fi
 
 % ]]]
 
 \LoadClass[onecolumn]{article}
 \setlength{\columnsep}{3cm}
+\newlength{\tud@hmargin}
+\setlength{\tud@hmargin}{\columnsep}
 
 % packages [[[
 
-\RequirePackage[paper=a0paper,hmargin=\columnsep,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
+\RequirePackage[paper=a0paper,hmargin=\tud@hmargin,vmargin={0cm,0cm},footskip=\columnsep]{geometry}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{tikz}
@@ -261,7 +274,7 @@
   \begin{tikzpicture}[remember picture,overlay]
     \node at (current page.north west)
       {\begin{tikzpicture}[remember picture,overlay]
-        \iftud@experimentalheadergradient
+        \iftud@opt@experimentalheadergradient
           \fill[tudcyan,path fading=south] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
         \else
           \draw[draw=none,top color=tudcyan,bottom color=tud@backgroundcolor] (-\safetymargin,\safetymargin) rectangle (\paperwidth+\safetymargin,-\tud@titleheaderheight);
@@ -273,8 +286,8 @@
 \newcommand{\tud@set@tikz@body}{%
   \newlength{\tud@body@t}\deflength{\tud@body@t}{\paperheight-\tud@titleheaderheight-\columnsep}%
   \newlength{\tud@body@b}\deflength{\tud@body@b}{\footerheight+\columnsep}%
-  \newlength{\tud@body@l}\deflength{\tud@body@l}{\columnsep}%
-  \newlength{\tud@body@r}\deflength{\tud@body@r}{\paperwidth-\columnsep}%
+  \newlength{\tud@body@l}\deflength{\tud@body@l}{\tud@hmargin}%
+  \newlength{\tud@body@r}\deflength{\tud@body@r}{\paperwidth-\tud@hmargin}%
   \csdef{pgf@sh@ns@body}{rectangle}%
   \csdef{pgf@sh@np@body}{%
     \def\southwest{\pgfqpoint{\tud@body@l}{\tud@body@b}}%
@@ -287,7 +300,7 @@
 \AfterEndPreamble{%
   \maketitle%
   \tud@set@tikz@body%
-  \begin{multicols}{2}}
+  \begin{multicols}{\tud@opt@ncolumns}}
 \AtEndDocument{%
   \end{multicols}}
 
@@ -295,7 +308,11 @@
 % footer [[[
 
 \newlength\footerheight
-\deflength\footerheight{.1\paperheight}
+\ifx\tud@opt@footerheight\@empty%
+  \deflength\footerheight{.1\paperheight}%
+\else%
+  \deflength\footerheight{\tud@opt@footerheight}%
+\fi
 \newlength\footerheightwithmargin
 \deflength\footerheightwithmargin{\footerheight+\columnsep}
 \geometry{vmargin={0cm,\footerheightwithmargin}}
@@ -320,7 +337,8 @@
 \newlength\footerimagey
 \deflength\footerimagey{\footerblueyiii+\footerimagemargin}
 
-\newcommand{\tudstylefooter}{\normalfont\sffamily\color{white}\small\bfseries}
+\newcommand{\tudfooterfontsize}{\fontsize{0.1\footerheight}{0.125\footerheight}\selectfont}
+\newcommand{\tudstylefooter}{\normalfont\sffamily\color{white}\tudfooterfontsize\bfseries}
 \newlength\footertextheight
 \settoheight\footertextheight{\tudstylefooter X}
 \newlength\footerimagetexty
@@ -410,12 +428,31 @@
 \tud@def@xpos{page.center}{.5\paperwidth}%
 \tud@def@xpos{page.left}{0pt}%
 \tud@def@xpos{page.right}{\paperwidth}%
-\tud@def@xpos{left column.center}{.25\paperwidth+.25\columnsep}%
-\tud@def@xpos{left column.left}{\columnsep}%
-\tud@def@xpos{left column.right}{.5\paperwidth-.5\columnsep}%
-\tud@def@xpos{right column.center}{.75\paperwidth-.25\columnsep}%
-\tud@def@xpos{right column.left}{.5\paperwidth+.5\columnsep}%
-\tud@def@xpos{right column.right}{\paperwidth-\columnsep}%
+
+\tud@def@xpos{body.center}{.5\paperwidth}%
+\tud@def@xpos{body.left}{\tud@hmargin}%
+\tud@def@xpos{body.right}{\paperwidth-\columnsep}%
+
+\newlength{\tud@columnwidth}
+\deflength{\tud@columnwidth}{(\paperwidth-2\tud@hmargin+\columnsep)/\tud@opt@ncolumns-\columnsep}
+\newcounter{tud@xpos@item}
+\setcounter{tud@xpos@item}{0}
+\@whilenum{\value{tud@xpos@item}<\tud@opt@ncolumns}\do{%
+  \tud@def@xpos{column\thetud@xpos@item.center}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+0.5\tud@columnwidth}%
+  \tud@def@xpos{column\thetud@xpos@item.left}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep}%
+  \tud@def@xpos{column\thetud@xpos@item.right}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+\tud@columnwidth}%
+  \stepcounter{tud@xpos@item}%
+}
+
+\setcounter{tud@xpos@item}{0}
+\tud@def@xpos{left column.center}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+0.5\tud@columnwidth}%
+\tud@def@xpos{left column.left}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep}%
+\tud@def@xpos{left column.right}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+\tud@columnwidth}%
+\setcounter{tud@xpos@item}{\tud@opt@ncolumns}
+\addtocounter{tud@xpos@item}{-1}%
+\tud@def@xpos{right column.center}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+0.5\tud@columnwidth}%
+\tud@def@xpos{right column.left}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep}%
+\tud@def@xpos{right column.right}{\tud@hmargin+\value{tud@xpos@item}\tud@columnwidth+\value{tud@xpos@item}\columnsep+\tud@columnwidth}%
 
 % ]]]
 % floats [[[
