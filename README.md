@@ -127,8 +127,8 @@ the footer:
     \addfootobject*(ALIGNMENT:POSITION){CODE}
     \addfootobject*(ALIGNMENT:POSITION)[TEXT]{CODE}
 
-    \addfootqrcode(ALIGNMENT:POSITION){QRMESSAGE}        % requires lualatex!
-    \addfootqrcode(ALIGNMENT:POSITION)[TEXT]{QRMESSAGE}  % requires lualatex!
+    \addfootqrcode(ALIGNMENT:POSITION){QRMESSAGE}
+    \addfootqrcode(ALIGNMENT:POSITION)[TEXT]{QRMESSAGE}
 
     \addfoottext(ALIGNMENT:POSITION){TEXT}
 
@@ -169,8 +169,7 @@ in the image bar.  The object will be resized to fit the height of the image
 bar.  The starred version does not resize the object.
 
 The command `\addfootqrcode` generates a QR code containing `QRMESSAGE`, usually
-a URL.  This command only works when you compile the document with `lualatex`
-instead of e.g. `pdflatex`.
+a URL.
 
 The command `\addfoottext` places `TEXT` on the text bar.
 
@@ -229,7 +228,6 @@ Example
     \addauthornote{B}{Some other institute}
 
     \addfootimage(c:right column.center)[DIAM, TU Delft]{tudelft}
-    % NOTE: the following line is only supported when compiling with lualatex
     \addfootqrcode(l:left column.left)[web page]{http://ta.twi.tudelft.nl}
 
     \begin{document}

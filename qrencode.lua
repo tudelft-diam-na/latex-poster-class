@@ -1,1 +1,0 @@
-luaqrcode-subtree/qrencode.lua

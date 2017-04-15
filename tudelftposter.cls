@@ -62,6 +62,7 @@
 \usetikzlibrary{fadings}
 \RequirePackage{multicol}
 \RequirePackage{caption}
+\RequirePackage{qrcode}
 
 % ]]]
 
@@ -414,7 +415,7 @@
 
 \def\tud@footer@addqrcode#1#2[#3]#4{%
   \tud@footer@addtotextbar{#1}{#2}{#3}%
-  \tud@footer@addtoimagebar{#1}{#2}{\tud@qr@insert{#4}{\footerimageheight}}}
+  \tud@footer@addtoimagebar{#1}{#2}{\qrcode[hyperlink,height=\footerimageheight]{#4}}}
 
 % position aliases
 
@@ -499,37 +500,6 @@
 \renewcommand\labelitemiv{\textperiodcentered}
 
 % ]]]
-
-% QR code [[[
-
-\newlength{\qrsize}
-
-\def\tud@href@wrapper#1#2{%
-  \ifcsdef{href}{%
-    \href{#1}{#2}}{%
-    #2}}
-
-\newif\ifqrcodessupported
-\ifx\directlua\undefined
-  \qrcodessupportedfalse
-  \def\tud@qr@insert#1#2{%
-    \ClassError{tudelftposter}{%
-        Generating QR codes requires running lua code.%
-      }{%
-        Please compile this document with lualatex when using QR codes}}
-\else
-  \qrcodessupportedtrue
-  \directlua{qrcode=dofile(kpse.find_file("qrcodehelper.lua"))}
-  \def\tud@qr@insert#1#2{%
-    \bgroup%
-      \setlength{\qrsize}{#2}%
-      \tud@href@wrapper{#1}{\directlua{qrcode.generate("\luaescapestring{#1}")}}%
-    \egroup}
-\fi
-
-
-% ]]]
-
 % block [[[
 
 \newlength\tud@block@inset%

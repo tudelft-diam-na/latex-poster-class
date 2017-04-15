@@ -37,20 +37,7 @@
 \addauthor[tp]{R.P. Feynman}
 
 \addfootimage(c:right column.center)[Delft Institute of Applied Mathematics]{tudelft}
-\ifqrcodessupported
-  % NOTE: compile this document with lualatex instead of pdflatex
-  \addfootqrcode(l:left column.left)[latex-poster-class repository]{https://github.com/tudelft-diam-na/latex-poster-class}
-\else
-  \addfootobject*(l:left column.left)[research web page]{%
-    \begin{tikzpicture}
-      \node[red,draw,inner sep=1ex] {%
-        \begin{minipage}{15cm}
-          \footnotesize%
-          Please compile this document with lualatex to see a QR code here:\\
-          \null\texttt{\quad lualatex \jobname}
-        \end{minipage}};
-    \end{tikzpicture}}
-\fi
+\addfootqrcode(l:left column.left)[latex-poster-class repository]{https://github.com/tudelft-diam-na/latex-poster-class}
 
 \newlength{\textboxwidth}
 \newlength{\textboxcolumnsep}\setlength{\textboxcolumnsep}{1em}

@@ -125,15 +125,11 @@ if not os.path.isdir( texmf_class ):
 src = os.path.split( __file__ )[0]
 
 batch = []
-for f in ( 'tudelftposter.cls', 'qrcodehelper.lua', 'tudelft.pdf' ):
+for f in ( 'tudelftposter.cls', 'tudelft.pdf' ):
     s = os.path.join( src, f )
     if not os.path.exists( s ):
         print( 'ERROR: Cannot find `{}`'.format( f ) )
     batch.append( ( s, os.path.join( texmf_class, f ) ) )
-
-f = 'qrencode.lua'
-s = os.path.join( src, 'luaqrcode-subtree', 'qrencode.lua' )
-batch.append( ( s, os.path.join( texmf_class, f ) ) )
 
 # copy files
 
