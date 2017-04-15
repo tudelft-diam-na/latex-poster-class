@@ -37,8 +37,8 @@ Either clone [this repository][github-repository] using git or download and
 unzip [this zip file][github-zip].  No installation is required as long as you
 put your `.tex` file in the same directory as `tudelftposter.cls`.
 
-[github-repository]: https://github.com/joostvanzwieten/tudelft-poster.git
-[github-zip]: https://github.com/joostvanzwieten/tudelft-poster/archive/master.zip
+[github-repository]: https://github.com/tudelft-diam-na/latex-poster-class.git
+[github-zip]: https://github.com/tudelft-diam-na/latex-poster-class/archive/master.zip
 
 Linux
 -----
